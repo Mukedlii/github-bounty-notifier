@@ -31,6 +31,19 @@ class NotifierTests(unittest.TestCase):
             self.assertEqual(request.call_count, 1)
             sleep.assert_not_called()
 
+    def test_telegram_identity_and_private_recipient(self):
+        me = {'ok': True, 'result': {'username': 'Github_ertesito_bot'}}
+        chat = {'ok': True, 'result': {'id': 5080373675, 'type': 'private'}}
+        with patch('notifier.request_json', side_effect=[me, chat]):
+            n.verify_telegram('FAKE', '5080373675')
+        with patch('notifier.request_json', return_value={'ok': False}):
+            with self.assertRaises(RuntimeError):
+                n.verify_telegram('FAKE', '5080373675')
+        wrong_chat = {'ok': True, 'result': {'id': 999, 'type': 'group'}}
+        with patch('notifier.request_json', side_effect=[me, wrong_chat]):
+            with self.assertRaises(RuntimeError):
+                n.verify_telegram('FAKE', '5080373675')
+
     def test_reward(self):
         self.assertEqual(n.reward('bounty $175'), (175, 'USD'))
         self.assertEqual(n.reward('Reward 45 EUR'), (45, 'EUR'))
