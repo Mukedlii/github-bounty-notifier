@@ -1566,7 +1566,7 @@
       "sent_at": "2026-10-17T21:02:38.241233+00:00"
     },
     "https://github.com/SecureBananaLabs/bug-bounty/issues/13331": {
-      "status": "pending",
+      "status": "sent",
       "created_at": "2026-10-17T21:53:42.887607+00:00",
       "candidate": {
         "url": "https://github.com/SecureBananaLabs/bug-bounty/issues/13331",
@@ -1594,7 +1594,9 @@
         "kind": "potential_ai_task",
         "pull_requests": [],
         "assessment": "Szabályalapú előszűrés; megoldhatóság nem garantált"
-      }
+      },
+      "message_id": 21,
+      "sent_at": "2026-10-17T21:53:44.467819+00:00"
     }
   },
   "last_success_at": "2026-10-17T21:48:39.980143+00:00",
