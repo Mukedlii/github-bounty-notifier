@@ -1298,7 +1298,7 @@
       "sent_at": "2026-10-17T14:40:13.709030+00:00"
     },
     "https://github.com/oll4com/spaceapp/issues/61": {
-      "status": "pending",
+      "status": "sent",
       "created_at": "2026-10-17T14:50:44.076491+00:00",
       "candidate": {
         "url": "https://github.com/oll4com/spaceapp/issues/61",
@@ -1326,7 +1326,9 @@
           "https://github.com/oll4com/spaceapp/pull/147",
           "https://github.com/oll4com/spaceapp/pull/151"
         ]
-      }
+      },
+      "message_id": 12,
+      "sent_at": "2026-10-17T14:50:45.548350+00:00"
     }
   },
   "last_success_at": "2026-10-17T14:45:43.568158+00:00",
