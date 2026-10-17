@@ -1475,6 +1475,37 @@
       },
       "message_id": 17,
       "sent_at": "2026-10-17T17:02:56.405141+00:00"
+    },
+    "https://github.com/NextDotID/proof_server/issues/18": {
+      "status": "pending",
+      "created_at": "2026-10-17T20:21:43.795385+00:00",
+      "candidate": {
+        "url": "https://github.com/NextDotID/proof_server/issues/18",
+        "title": "[Bounty] Build a frontend application for Next.ID",
+        "rewards": [
+          [
+            5000.0,
+            "USD"
+          ],
+          [
+            2500.0,
+            "USD"
+          ]
+        ],
+        "amount": 5000.0,
+        "currency": "USD",
+        "checked_at": "2026-10-17T20:21:39.852537+00:00",
+        "created_at": "2022-05-19T16:47:34Z",
+        "updated_at": "2026-10-17T20:21:28Z",
+        "comments": 10,
+        "flags": [
+          "AI-munkamód és kifizetés karbantartói megerősítése szükséges",
+          "10 hozzászólás; versenyhelyzet ellenőrizendő"
+        ],
+        "kind": "potential_ai_task",
+        "pull_requests": [],
+        "assessment": "Szabályalapú előszűrés; megoldhatóság nem garantált"
+      }
     }
   },
   "last_success_at": "2026-10-17T20:16:42.704487+00:00",
