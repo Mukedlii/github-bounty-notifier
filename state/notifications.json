@@ -1331,7 +1331,7 @@
       "sent_at": "2026-10-17T14:50:45.548350+00:00"
     },
     "https://github.com/GoodDollar/GoodWidget/issues/255": {
-      "status": "pending",
+      "status": "sent",
       "created_at": "2026-10-17T14:56:01.157478+00:00",
       "candidate": {
         "url": "https://github.com/GoodDollar/GoodWidget/issues/255",
@@ -1358,7 +1358,9 @@
         ],
         "kind": "advertised_paid_issue",
         "pull_requests": []
-      }
+      },
+      "message_id": 13,
+      "sent_at": "2026-10-17T14:56:02.588194+00:00"
     }
   },
   "last_success_at": "2026-10-17T14:50:47.589630+00:00",
