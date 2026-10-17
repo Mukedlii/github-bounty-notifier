@@ -1361,6 +1361,34 @@
       },
       "message_id": 13,
       "sent_at": "2026-10-17T14:56:02.588194+00:00"
+    },
+    "https://github.com/freedom-winds/BountyScout/issues/1268": {
+      "status": "pending",
+      "created_at": "2026-10-17T15:01:01.342035+00:00",
+      "candidate": {
+        "url": "https://github.com/freedom-winds/BountyScout/issues/1268",
+        "title": "🎯 Bounty Alert: 8 New Opportunityies found",
+        "rewards": [
+          [
+            50.0,
+            "USD"
+          ],
+          [
+            10.0,
+            "USD"
+          ]
+        ],
+        "amount": 50.0,
+        "currency": "USD",
+        "checked_at": "2026-10-17T15:00:59.146094+00:00",
+        "updated_at": "2026-10-17T14:57:58Z",
+        "comments": 0,
+        "flags": [
+          "AI-feltétel nincs teljesen ellenőrizve"
+        ],
+        "kind": "advertised_paid_issue",
+        "pull_requests": []
+      }
     }
   },
   "last_success_at": "2026-10-17T14:56:04.691436+00:00",
