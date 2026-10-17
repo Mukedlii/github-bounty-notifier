@@ -2,8 +2,10 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 import notifier as n
+import urllib.error
+from email.message import Message
 
 
 class NotifierTests(unittest.TestCase):
@@ -12,6 +14,22 @@ class NotifierTests(unittest.TestCase):
             'body': 'Fix CSV validation in Python. Acceptance requirements: add regression tests for quoted values and ensure tests pass.'}
         value.update(updates)
         return value
+
+    def test_rate_limit_only_retries_read_only_github(self):
+        headers = Message()
+        headers['X-RateLimit-Remaining'] = '0'
+        headers['Retry-After'] = '1'
+        error = urllib.error.HTTPError('https://api.github.com/search/issues', 403, 'rate limited', headers, None)
+        with patch('notifier.urllib.request.urlopen', side_effect=error) as request, patch('notifier.time.sleep') as sleep:
+            with self.assertRaisesRegex(RuntimeError, 'rate limit'):
+                n.request_json('https://api.github.com/search/issues')
+            self.assertEqual(request.call_count, 2)
+            sleep.assert_called_once_with(1)
+        with patch('notifier.urllib.request.urlopen', side_effect=error) as request, patch('notifier.time.sleep') as sleep:
+            with self.assertRaises(RuntimeError):
+                n.request_json('https://api.telegram.org/botFAKE/sendMessage', data={'text': 'test'})
+            self.assertEqual(request.call_count, 1)
+            sleep.assert_not_called()
 
     def test_reward(self):
         self.assertEqual(n.reward('bounty $175'), (175, 'USD'))
