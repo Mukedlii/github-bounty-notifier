@@ -888,6 +888,197 @@
       },
       "message_id": 8,
       "sent_at": "2026-10-17T14:40:03.432166+00:00"
+    },
+    "https://github.com/Presago-Labs/presago-contracts/issues/44": {
+      "status": "pending",
+      "created_at": "2026-10-17T14:40:05.464990+00:00",
+      "candidate": {
+        "url": "https://github.com/Presago-Labs/presago-contracts/issues/44",
+        "title": "[Bounty: $75] Add a WASM size budget check to the `build-wasm` job",
+        "rewards": [
+          [
+            75.0,
+            "USD"
+          ]
+        ],
+        "amount": 75.0,
+        "currency": "USD",
+        "checked_at": "2026-10-17T14:39:39.205277+00:00",
+        "updated_at": "2026-10-17T12:21:56Z",
+        "comments": 4,
+        "flags": [
+          "AI-feltétel nincs teljesen ellenőrizve",
+          "4 hozzászólás; versenyhelyzet ellenőrizendő"
+        ],
+        "kind": "advertised_paid_issue",
+        "pull_requests": []
+      }
+    },
+    "https://github.com/Nish916/revenue-command-runner/issues/1": {
+      "status": "pending",
+      "created_at": "2026-10-17T14:40:05.464990+00:00",
+      "candidate": {
+        "url": "https://github.com/Nish916/revenue-command-runner/issues/1",
+        "title": "Cloud Revenue Command Dashboard",
+        "rewards": [
+          [
+            125.0,
+            "USD"
+          ],
+          [
+            850.0,
+            "USD"
+          ],
+          [
+            700.0,
+            "USD"
+          ],
+          [
+            650.0,
+            "USD"
+          ],
+          [
+            500.0,
+            "USD"
+          ],
+          [
+            50.0,
+            "USD"
+          ],
+          [
+            1000000.0,
+            "USD"
+          ],
+          [
+            2000000.0,
+            "USD"
+          ],
+          [
+            80.0,
+            "USD"
+          ],
+          [
+            150.0,
+            "USD"
+          ]
+        ],
+        "amount": 125.0,
+        "currency": "USD",
+        "checked_at": "2026-10-17T14:39:40.598086+00:00",
+        "updated_at": "2026-10-17T14:11:25Z",
+        "comments": 2,
+        "flags": [
+          "AI-/emberi ellenőrzési feltétel: olvasd el",
+          "Kapcsolt PR: legalább 2"
+        ],
+        "kind": "advertised_paid_issue",
+        "pull_requests": [
+          "https://github.com/aLexzzz430/Cognitive-OS/pull/53",
+          "https://github.com/Nish916/revenue-command-runner/pull/3"
+        ]
+      }
+    },
+    "https://github.com/p1ngtoohigh/Jarvus-Pub/issues/1": {
+      "status": "pending",
+      "created_at": "2026-10-17T14:40:05.464990+00:00",
+      "candidate": {
+        "url": "https://github.com/p1ngtoohigh/Jarvus-Pub/issues/1",
+        "title": "[HYDRA] Paid work lead watch",
+        "rewards": [
+          [
+            50.0,
+            "USD"
+          ],
+          [
+            75.0,
+            "USD"
+          ],
+          [
+            200.0,
+            "USD"
+          ],
+          [
+            150.0,
+            "USD"
+          ],
+          [
+            1000.0,
+            "USD"
+          ]
+        ],
+        "amount": 50.0,
+        "currency": "USD",
+        "checked_at": "2026-10-17T14:39:41.110651+00:00",
+        "updated_at": "2026-10-17T13:57:48Z",
+        "comments": 19,
+        "flags": [
+          "AI-feltétel nincs teljesen ellenőrizve",
+          "19 hozzászólás; versenyhelyzet ellenőrizendő"
+        ],
+        "kind": "advertised_paid_issue",
+        "pull_requests": []
+      }
+    },
+    "https://github.com/oll4com/spaceapp/issues/65": {
+      "status": "pending",
+      "created_at": "2026-10-17T14:40:05.464990+00:00",
+      "candidate": {
+        "url": "https://github.com/oll4com/spaceapp/issues/65",
+        "title": "[$450] One command to run the full SpaceApp stack from source for contributors",
+        "rewards": [
+          [
+            450.0,
+            "USD"
+          ]
+        ],
+        "amount": 450.0,
+        "currency": "USD",
+        "checked_at": "2026-10-17T14:39:41.670043+00:00",
+        "updated_at": "2026-10-17T13:51:01Z",
+        "comments": 25,
+        "flags": [
+          "AI-/emberi ellenőrzési feltétel: olvasd el",
+          "Kapcsolt PR: legalább 5"
+        ],
+        "kind": "advertised_paid_issue",
+        "pull_requests": [
+          "https://github.com/oll4com/spaceapp/pull/108",
+          "https://github.com/oll4com/spaceapp/pull/146",
+          "https://github.com/oll4com/spaceapp/pull/153",
+          "https://github.com/oll4com/spaceapp/pull/154",
+          "https://github.com/oll4com/spaceapp/pull/156"
+        ]
+      }
+    },
+    "https://github.com/oll4com/spaceapp/issues/60": {
+      "status": "pending",
+      "created_at": "2026-10-17T14:40:05.464990+00:00",
+      "candidate": {
+        "url": "https://github.com/oll4com/spaceapp/issues/60",
+        "title": "[$400] Test every Temporal workflow on a real time-skipping test server and gate replay determinism in CI",
+        "rewards": [
+          [
+            400.0,
+            "USD"
+          ]
+        ],
+        "amount": 400.0,
+        "currency": "USD",
+        "checked_at": "2026-10-17T14:39:42.258201+00:00",
+        "updated_at": "2026-10-17T13:50:50Z",
+        "comments": 24,
+        "flags": [
+          "AI-feltétel nincs teljesen ellenőrizve",
+          "Kapcsolt PR: legalább 4"
+        ],
+        "kind": "advertised_paid_issue",
+        "pull_requests": [
+          "https://github.com/oll4com/spaceapp/pull/149",
+          "https://github.com/oll4com/spaceapp/pull/155",
+          "https://github.com/oll4com/spaceapp/pull/128",
+          "https://github.com/oll4com/spaceapp/pull/157"
+        ]
+      }
     }
   },
   "last_success_at": "2026-10-17T08:43:33.230339+00:00"
