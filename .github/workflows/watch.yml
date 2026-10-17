@@ -3,6 +3,11 @@ on:
   schedule:
     - cron: '2-59/5 * * * *'
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Do not send Telegram messages or write delivery state'
+        type: boolean
+        default: true
   push:
     paths:
       - 'notifier.py'
@@ -42,12 +47,15 @@ jobs:
           python-version: '3.12'
       - name: Scan and notify (dry run if Telegram secret is absent)
         env:
+          DRY_RUN: ${{ inputs.dry_run }}
           GITHUB_TOKEN: ${{ github.token }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         shell: bash
         run: |
-          if [ -n "$TELEGRAM_BOT_TOKEN" ] && [ -n "$TELEGRAM_CHAT_ID" ]; then
+          if [ "$DRY_RUN" = "true" ]; then
+            python notifier.py --dry-run
+          elif [ -n "$TELEGRAM_BOT_TOKEN" ] && [ -n "$TELEGRAM_CHAT_ID" ]; then
             python notifier.py
           else
             echo 'Telegram secret missing: running without messages or state writes.'
