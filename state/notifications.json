@@ -1271,7 +1271,7 @@
       "sent_at": "2026-10-17T14:40:10.163003+00:00"
     },
     "https://github.com/FinesseStudioLab/Trivela/issues/1292": {
-      "status": "pending",
+      "status": "sent",
       "created_at": "2026-10-17T14:40:12.450469+00:00",
       "candidate": {
         "url": "https://github.com/FinesseStudioLab/Trivela/issues/1292",
@@ -1293,7 +1293,9 @@
         ],
         "kind": "advertised_paid_issue",
         "pull_requests": []
-      }
+      },
+      "message_id": 11,
+      "sent_at": "2026-10-17T14:40:13.709030+00:00"
     }
   },
   "last_success_at": "2026-10-17T08:43:33.230339+00:00"
