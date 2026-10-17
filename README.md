@@ -1,18 +1,19 @@
 # GitHub pénzdíjas bounty értesítő
 
-Telegram-értesítő **minden megtalált, nyitott, meghirdetett pénzdíjas GitHub issue-ról**. Az AI-engedély, nehézség, gépigény, hozzárendelés, PR-versenyhelyzet és a kifizetési mód hiánya már nem rejti el a találatot. Ezek ellenőrizendő feltételként jelennek meg. A kiírt összeg nem igazolt finanszírozás vagy garantált kifizetés.
+Telegram-értesítő a Márk és AI-asszisztense által potenciálisan megoldható, újonnan észlelt pénzdíjas feladatokhoz. Szabályalapú előszűrő, nem önálló AI-mérnök és nem garantálja sem a megoldhatóságot, sem a fizetést.
 
-## Keresés
+## Szűrés és dátum
 
-Öt keresés legfrissebb 50–50 találata: bounty címke, bounty a címben, /bounty a törzsben, Expensify HelpWanted és USD a címben. **Ez nem teljes GitHub-index és nem garantál minden történelmi bounty megtalálását.** Minden felfedezett, még nem értesített és a pénzdíj-feltételnek megfelelő issue-t továbbít; nincs 3 találatos küldési korlát. Ötös csomagokban küld, tartós duplikációszűréssel.
-
-- Nincs alsó/felső díjhatár, technológiai, csillagszám-, repókor-, hozzászólásszám- vagy AI-engedélyszűrő.
-- USD, EUR, GBP, NIS/ILS, USDC/USDT, BTC és sats összegek felismerése; más pénznemek kimaradhatnak.
-- A címben és a leírásban ismételt azonos díj nem teszi érvénytelenné a találatot.
-- A friss issue-adatokat újra lekéri. Ha egy gyűjtőoldal eredeti GitHub-issue-t hivatkozik, az eredetit ellenőrzi; lezárt eredetit nem ajánl nyitottként.
-- A nullás/testnet/testpénz, díj nélküli bounty-kérés és lezárt issue nem pénzdíjas találat.
-- Legutóbbi hozzászólásokból PR- és foglalási figyelmeztetés; ez nem teljes emberi vagy AI-szakmai felülvizsgálat. A meghirdetett összeg értelmezése szabályalapú, tévedhet.
-- Nincs automatikus jelentkezés, komment, PR vagy szerződés, és nem hajt végre harmadik féltől származó kódot.
+- Csak pozitív, meghirdetett bounty/reward; egy költségkeret vagy ár önmagában nem elég.
+- Kódolási, tesztelési, webes, API-, bot-, dokumentum-/adatfeldolgozási, dokumentációs és CI-scope felismerése.
+- Gyűjtő- és bevételi radarok, díj nélküli kérések, testnet, nullás díj kizárva.
+- Kizárva: felismert AI-tilalom vagy a közreműködő saját emberi technikai ellenőrzésének követelménye, speciális GPU/eszközigény, egyes összetett audit-/konszenzusfeladatok, hozzárendelt issue és 30-nál több komment.
+- README, CONTRIBUTING és AGENTS gyökérszabályok, továbbá .github/CONTRIBUTING és .github/AGENTS ellenőrzése. Felismert AI-tilalom esetén nincs értesítés. A szabályok természetes nyelvű értelmezése korlátozott; nincs teljes alkalmassági garancia.
+- Legfeljebb 30 hozzászólás és az issue timeline ellenőrzése: claim, kész PR említése vagy kapcsolt PR esetén konzervatívan nem küld. Régi, elutasított PR is okozhat kihagyást.
+- AI-használat, díj finanszírozása, Magyarországról való jogosultság és a fizetési mód végleges karbantartói megerősítést igényel; ezt az üzenet jelzi.
+- Minden üzenetben **Issue megnyitva**: az eredeti GitHub `created_at`, Europe/Budapest időzónában. Ez nem feltétlenül a pénzdíj későbbi meghirdetésének dátuma; azt nem találja ki, és nem helyettesíti `updated_at`-tal.
+- Öt keresés legfrissebb 50–50 találata; nem teljes GitHub-lefedettség. Nincs automatikus jelentkezés vagy PR.
+- A már elküldött 41 találat állapota megmarad: régi találat nem kerül újra kiküldésre a szűrő megváltozása miatt.
 
 ## Futás és helyreállás
 
@@ -39,6 +40,6 @@ python -m unittest discover -s tests -v
 python notifier.py --dry-run
 ```
 
-A tesztek a tág szűrést, eredeti issue feloldását, ötperces ciklusokat, biztonságos utódindítást, duplikációt és bizonytalan küldést ellenőrzik. A Telegram-személyazonosság és a saját privát címzett ellenőrzése minden éles keresés előtt lefut.
+A tesztek az alkalmassági előszűrést, Budapest szerinti dátumot, eredeti issue feloldását, ötperces ciklusokat, biztonságos utódindítást, duplikációt és bizonytalan küldést ellenőrzik. A Telegram-személyazonosság és a saját privát címzett ellenőrzése minden éles keresés előtt lefut.
 
 [GitHub ütemezési korlátok](https://docs.github.com/en/actions/how-tos/troubleshoot-workflows) · [GITHUB_TOKEN és workflow_dispatch](https://docs.github.com/en/actions/concepts/security/github_token)

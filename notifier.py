@@ -12,6 +12,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+from zoneinfo import ZoneInfo
 
 API = 'https://api.github.com'
 STATE_PATH = 'state/notifications.json'
@@ -151,6 +152,12 @@ def reward(text):
     return values
 
 
+AI_BLOCK = re.compile(r'no\s+ai\b|(?:do\s+not|don.t)\s+accept\s+ai|ai[- ](?:generated|assisted).{0,60}(?:not\s+allowed|prohibited|forbidden|not\s+accepted)|(?:human|manual).{0,35}(?:written|technical\s+review|code\s+review)|review.{0,30}(?:yourself|human)|own.{0,20}review', re.I | re.S)
+UNSUITABLE = re.compile(r'RX\s*7900|RTX\s*2080|GPU\s+(?:kernel|hardware)|physical\s+(?:device|hardware)|real\s+(?:iphone|android\s+device)|FPGA|CUDA|consensus\s+(?:liveness|protocol)|(?:security|smart\s+contract)\s+audit', re.I)
+SCOPE = re.compile(r'\b(?:python|javascript|typescript|bash|shell|script|csv|xlsx|excel|docx|pdf|api|webhook|telegram|discord|bot|responsive|css|html|react|next\.js|frontend|landing\s+page|timeout|unit\s+test|regression\s+test|ci|workflow|wasm|changelog|documentation)\b', re.I)
+AGGREGATOR = re.compile(r'\[radar\]|bounty\s+(?:alert|ledger|eligibility)|paid\s+work\s+lead|bounty\s+discovery|\d+\s+open\s+bounties|revenue\s+command|(?:fund|post).{0,30}(?:first|real).{0,15}(?:task|bounty)', re.I)
+
+
 def preliminary(issue, repo):
     text = issue.get('title', '') + '\n' + (issue.get('body') or '')
     labels = ' '.join(x.get('name', '') if isinstance(x, dict) else str(x) for x in issue.get('labels', []))
@@ -158,9 +165,34 @@ def preliminary(issue, repo):
         return []
     if re.search(r'(?:bounty requested|please (?:add|fund).{0,30}bounty|would like a bounty attached|proposed bounty|testnet bounty)', text, re.I):
         return []
-    if not re.search(r'bounty|reward|budget|pays|will pay|helpwanted|\[\s*[$€£]', text + labels, re.I):
+    # A cost budget or token price is not a reward for solving this issue.
+    if not re.search(r'bounty|reward|will pay|helpwanted|\[\s*[$€£]', text + labels, re.I):
+        return []
+    if AGGREGATOR.search(issue.get('title', '')) or AI_BLOCK.search(text) or UNSUITABLE.search(text):
+        return []
+    if issue.get('assignees') or issue.get('comments', 0) > 30 or not SCOPE.search(text):
         return []
     return reward(text)
+
+
+def repository_policy(gh, repo):
+    cache = getattr(gh, '_policy_cache', None)
+    if cache is None:
+        cache = gh._policy_cache = {}
+    if repo not in cache:
+        root = gh.get(f'/repos/{repo}/contents/')
+        files = [x for x in root if x.get('type') == 'file' and re.match(r'^(?:readme|contributing|agents)(?:\.|$)', x.get('name', ''), re.I)]
+        github_dir = next((x for x in root if x.get('type') == 'dir' and x.get('name') == '.github'), None)
+        if github_dir:
+            files += [x for x in gh.get(f'/repos/{repo}/contents/.github') if x.get('type') == 'file' and re.match(r'^(?:contributing|agents)(?:\.|$)', x.get('name', ''), re.I)]
+        parts = []
+        for entry in files[:8]:
+            blob = gh.get(f'/repos/{repo}/contents/{entry["path"]}')
+            if blob.get('encoding') != 'base64' or blob.get('size', 0) > 200000:
+                raise RuntimeError('Repository policy could not be fully checked')
+            parts.append(base64.b64decode(blob['content']).decode('utf-8'))
+        cache[repo] = '\n'.join(parts)
+    return cache[repo]
 
 
 def assess(gh, item):
@@ -178,32 +210,37 @@ def assess(gh, item):
     amounts = preliminary(issue, repo)
     if not amounts:
         return None
+    policy = repository_policy(gh, repo)
+    if AI_BLOCK.search(policy):
+        return None
     flags = []
-    if issue.get('assignees'):
-        flags.append('Van hozzárendelt közreműködő')
     text = issue.get('title', '') + '\n' + (issue.get('body') or '')
-    # Competition and restrictions are annotations, never eligibility filters.
-    if re.search(r'no ai|ai.{0,30}(?:prohibited|forbidden)|human.{0,30}review', text, re.I):
-        flags.append('AI-/emberi ellenőrzési feltétel: olvasd el')
-    else:
-        flags.append('AI-feltétel nincs teljesen ellenőrizve')
+    flags.append('AI-munkamód és kifizetés karbantartói megerősítése szükséges')
     recent = []
     total = issue.get('comments', 0)
     if total:
         page = max(1, (total + 99) // 100)
         recent = gh.get(f'/repos/{repo}/issues/{number}/comments?per_page=100&page={page}')
-    discussion = '\n'.join(c.get('body') or '' for c in recent[-10:])
+    discussion = '\n'.join(c.get('body') or '' for c in recent)
+    # Avoid duplicating submitted work, claims, or completed solutions.
+    if re.search(r'(?:^|\n)\s*/claim\b|bounty paid|payment sent|already fixed|proposal (?:accepted|selected)|(?:fix|resolve[ds]?|close[ds]?)\s+(?:in\s+)?PR\s*#\d+|PR\s*#\d+', discussion, re.I):
+        return None
+    if AI_BLOCK.search(discussion):
+        return None
+    timeline = gh.get(f'/repos/{repo}/issues/{number}/timeline?per_page=100')
+    if len(timeline) >= 100 or any(e.get('source', {}).get('issue', {}).get('pull_request') for e in timeline):
+        return None
     prs = list(dict.fromkeys(PR_LINK.findall(text + '\n' + discussion)))
     if prs:
-        flags.append(f'Kapcsolt PR: legalább {len(prs)}')
+        return None
     elif total:
         flags.append(f'{total} hozzászólás; versenyhelyzet ellenőrizendő')
     if re.search(r'bounty paid|payment sent|already fixed|proposal (?:accepted|selected)', discussion, re.I):
         flags.append('Korábbi teljesítés/kifizetés is szerepel a beszélgetésben')
     return {'url': issue['html_url'], 'title': issue['title'], 'rewards': amounts,
             'amount': amounts[0][0], 'currency': amounts[0][1], 'checked_at': now(),
-            'updated_at': issue['updated_at'], 'comments': total, 'flags': flags,
-            'kind': 'advertised_paid_issue', 'pull_requests': prs[:5]}
+            'created_at': issue.get('created_at'), 'updated_at': issue['updated_at'], 'comments': total, 'flags': flags,
+            'kind': 'potential_ai_task', 'pull_requests': [], 'assessment': 'Szabályalapú előszűrés; megoldhatóság nem garantált'}
 
 
 def message(candidate):
@@ -211,7 +248,9 @@ def message(candidate):
     amounts = candidate.get('rewards') or [(candidate['amount'], candidate['currency'])]
     money = ' / '.join(f'{v:g} {currency}' for v, currency in amounts[:4])
     flags = '; '.join(candidate.get('flags', []))
-    return f"💰 {money} — {title}\n{candidate['url']}\n{flags}".strip()
+    created = candidate.get('created_at')
+    opened = dt.datetime.fromisoformat(created.replace('Z', '+00:00')).astimezone(ZoneInfo('Europe/Budapest')).strftime('%Y.%m.%d. %H:%M') if created else 'nem ismert'
+    return f"💰 {money} — {title}\n📅 Issue megnyitva: {opened} (Budapest)\n{candidate['url']}\nAI-val lehetséges feladat, részletes ellenőrzés szükséges.\n{flags}".strip()
 
 
 def deliver_batch(state, candidates, send):
@@ -222,7 +261,7 @@ def deliver_batch(state, candidates, send):
     for candidate in candidates:
         state.data['notifications'][candidate['url']] = {'status': 'pending', 'created_at': timestamp, 'candidate': candidate}
     state.save()
-    text = 'Új, nyitott issue-k meghirdetett pénzdíjjal:\n\n' + '\n\n'.join(message(c) for c in candidates)
+    text = 'Új, AI-val lehetséges pénzdíjas feladatok:\n\n' + '\n\n'.join(message(c) for c in candidates)
     text += '\n\nKiírt díj, nem garantált kifizetés. A nehézséget, AI-engedélyt, jogosultságot és fizetési módot munkakezdés előtt külön ellenőrizzük.'
     if len(text) > 4000:
         raise RuntimeError('Notification batch too long; kept pending without sending')

@@ -7,7 +7,7 @@ import worker
 
 
 def item(**changes):
-    issue={'html_url':'https://github.com/example/repo/issues/1', 'title':'Bounty $5000', 'body':'GPU kernel testing. No AI allowed.', 'state':'open', 'labels':[], 'assignees':[{'login':'someone'}], 'comments':0, 'updated_at':'2026-10-17T14:00:00Z'}
+    issue={'html_url':'https://github.com/example/repo/issues/1', 'title':'Bounty $5000', 'body':'Add a Python API timeout and unit test.', 'state':'open', 'labels':[], 'assignees':[], 'comments':0, 'created_at':'2026-10-17T12:00:00Z', 'updated_at':'2026-10-17T14:00:00Z'}
     issue.update(changes)
     return issue
 
@@ -18,12 +18,27 @@ class BroadWatcherTests(unittest.TestCase):
         self.assertEqual(n.reward('100 NIS and 0.5 BTC'),[(100,'NIS'),(0.5,'BTC')])
         self.assertEqual(n.reward('$0'),[])
 
-    def test_ai_hardware_assignees_and_competition_do_not_hide_money(self):
-        self.assertEqual(n.preliminary(item(), 'example/repo'), [(5000,'USD')])
-        gh=Mock();gh.get.return_value=item()
-        candidate=n.assess(gh,item())
-        self.assertTrue(candidate)
-        self.assertIn('Van hozzárendelt közreműködő',candidate['flags'])
+    def test_excludes_ai_ban_hardware_assignee_and_crowds(self):
+        for changes in [dict(body='No AI allowed. Python API'), dict(body='RX 7900 GPU Python'), dict(assignees=[{'login':'claimed'}]), dict(comments=31)]:
+            self.assertFalse(n.preliminary(item(**changes), 'example/repo'))
+
+    def test_costs_and_aggregators_are_not_jobs(self):
+        self.assertFalse(n.preliminary(item(title='Infra costs 100 USD',body='Storage budget'), 'x/y'))
+        self.assertFalse(n.preliminary(item(title='Bounty ledger: claims and payouts'), 'x/y'))
+
+    def test_policy_and_linked_pr_exclusions(self):
+        gh=Mock(); gh._policy_cache={}; gh.get.side_effect=[item(), [], []]
+        self.assertIsNotNone(n.assess(gh,item()))
+        gh=Mock(); gh._policy_cache={}; gh.get.side_effect=[item(), [], [{'source':{'issue':{'pull_request':{'url':'https://api.github.com/repos/x/y/pulls/1'}}}}]]
+        self.assertIsNone(n.assess(gh,item()))
+        gh=Mock(); gh.get.return_value=item(comments=1)
+        gh._policy_cache={'example/repo':'We require human code review by the contributor.'}
+        self.assertIsNone(n.assess(gh,item()))
+
+    def test_opening_date_is_budapest_and_not_update_date(self):
+        text=n.message({'url':item()['html_url'],'title':'Python fix','amount':75,'currency':'USD','created_at':'2026-10-17T12:00:00Z'})
+        self.assertIn('2026.10.17. 14:00',text)
+        self.assertIn('Issue megnyitva',text)
 
     def test_closed_test_money_and_bounty_request_not_paid_jobs(self):
         self.assertFalse(n.preliminary(item(state='closed'),'x/y'))
