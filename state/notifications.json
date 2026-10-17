@@ -286,6 +286,148 @@
       },
       "message_id": 4,
       "sent_at": "2026-10-17T14:39:50.515428+00:00"
+    },
+    "https://github.com/claude-builders-bounty/claude-builders-bounty/issues/2": {
+      "status": "pending",
+      "created_at": "2026-10-17T14:39:52.478224+00:00",
+      "candidate": {
+        "url": "https://github.com/claude-builders-bounty/claude-builders-bounty/issues/2",
+        "title": "[BOUNTY $75] TEMPLATE: CLAUDE.md for a Next.js + SQLite SaaS project",
+        "rewards": [
+          [
+            75.0,
+            "USD"
+          ]
+        ],
+        "amount": 75.0,
+        "currency": "USD",
+        "checked_at": "2026-10-17T14:39:24.792452+00:00",
+        "updated_at": "2026-10-17T06:19:24Z",
+        "comments": 1579,
+        "flags": [
+          "AI-feltétel nincs teljesen ellenőrizve",
+          "Kapcsolt PR: legalább 2"
+        ],
+        "kind": "advertised_paid_issue",
+        "pull_requests": [
+          "https://github.com/claude-builders-bounty/claude-builders-bounty/pull/4844",
+          "https://github.com/claude-builders-bounty/claude-builders-bounty/pull/4879"
+        ]
+      }
+    },
+    "https://github.com/claude-builders-bounty/claude-builders-bounty/issues/4": {
+      "status": "pending",
+      "created_at": "2026-10-17T14:39:52.478224+00:00",
+      "candidate": {
+        "url": "https://github.com/claude-builders-bounty/claude-builders-bounty/issues/4",
+        "title": "[BOUNTY $150] AGENT: Claude Code sub-agent that reviews a PR and posts a structured comment",
+        "rewards": [
+          [
+            150.0,
+            "USD"
+          ]
+        ],
+        "amount": 150.0,
+        "currency": "USD",
+        "checked_at": "2026-10-17T14:39:25.403651+00:00",
+        "updated_at": "2026-10-17T05:24:51Z",
+        "comments": 1616,
+        "flags": [
+          "AI-feltétel nincs teljesen ellenőrizve",
+          "Kapcsolt PR: legalább 3"
+        ],
+        "kind": "advertised_paid_issue",
+        "pull_requests": [
+          "https://github.com/owner/repo/pull/123",
+          "https://github.com/claude-builders-bounty/claude-builders-bounty/pull/4843",
+          "https://github.com/claude-builders-bounty/claude-builders-bounty/pull/4887"
+        ]
+      }
+    },
+    "https://github.com/NSPG13/agent-bounties/issues/1632": {
+      "status": "pending",
+      "created_at": "2026-10-17T14:39:52.478224+00:00",
+      "candidate": {
+        "url": "https://github.com/NSPG13/agent-bounties/issues/1632",
+        "title": "[Bounty] Bring a real backlog: get an established open-source project to fund its first Agent Bounties bounty",
+        "rewards": [
+          [
+            20.3,
+            "USDC"
+          ],
+          [
+            1.0,
+            "USDC"
+          ],
+          [
+            21.3,
+            "USDC"
+          ]
+        ],
+        "amount": 20.3,
+        "currency": "USDC",
+        "checked_at": "2026-10-17T14:39:28.523854+00:00",
+        "updated_at": "2026-10-17T01:23:05Z",
+        "comments": 6,
+        "flags": [
+          "AI-feltétel nincs teljesen ellenőrizve",
+          "6 hozzászólás; versenyhelyzet ellenőrizendő"
+        ],
+        "kind": "advertised_paid_issue",
+        "pull_requests": []
+      }
+    },
+    "https://github.com/Spectral-Finance/lux/issues/103": {
+      "status": "pending",
+      "created_at": "2026-10-17T14:39:52.478224+00:00",
+      "candidate": {
+        "url": "https://github.com/Spectral-Finance/lux/issues/103",
+        "title": "Rust Component Definition Support $500",
+        "rewards": [
+          [
+            500.0,
+            "USD"
+          ]
+        ],
+        "amount": 500.0,
+        "currency": "USD",
+        "checked_at": "2026-10-17T14:39:29.057094+00:00",
+        "updated_at": "2026-10-17T00:48:53Z",
+        "comments": 26,
+        "flags": [
+          "AI-feltétel nincs teljesen ellenőrizve",
+          "26 hozzászólás; versenyhelyzet ellenőrizendő"
+        ],
+        "kind": "advertised_paid_issue",
+        "pull_requests": []
+      }
+    },
+    "https://github.com/auscaster/frantic-board/issues/330": {
+      "status": "pending",
+      "created_at": "2026-10-17T14:39:52.478224+00:00",
+      "candidate": {
+        "url": "https://github.com/auscaster/frantic-board/issues/330",
+        "title": "Frantic bounty #120: Add a valuable startup offer to Sourcey",
+        "rewards": [
+          [
+            1.0,
+            "USD"
+          ]
+        ],
+        "amount": 1.0,
+        "currency": "USD",
+        "checked_at": "2026-10-17T14:39:29.686134+00:00",
+        "updated_at": "2026-10-16T23:39:51Z",
+        "comments": 1775,
+        "flags": [
+          "AI-feltétel nincs teljesen ellenőrizve",
+          "Kapcsolt PR: legalább 1"
+        ],
+        "kind": "advertised_paid_issue",
+        "pull_requests": [
+          "https://github.com/sourcey/startup-credits/pull/1888"
+        ]
+      }
     }
   },
   "last_success_at": "2026-10-17T08:43:33.230339+00:00"
