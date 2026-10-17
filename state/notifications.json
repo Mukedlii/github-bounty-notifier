@@ -1089,6 +1089,176 @@
       },
       "message_id": 9,
       "sent_at": "2026-10-17T14:40:06.946078+00:00"
+    },
+    "https://github.com/krizaka/.github/issues/87": {
+      "status": "pending",
+      "created_at": "2026-10-17T14:40:08.847718+00:00",
+      "candidate": {
+        "url": "https://github.com/krizaka/.github/issues/87",
+        "title": "Epic: Infra and costs — under 100 USD a month, connection budget, storage",
+        "rewards": [
+          [
+            100.0,
+            "USD"
+          ],
+          [
+            106.0,
+            "USD"
+          ]
+        ],
+        "amount": 100.0,
+        "currency": "USD",
+        "checked_at": "2026-10-17T14:39:43.669038+00:00",
+        "updated_at": "2026-10-17T14:33:59Z",
+        "comments": 0,
+        "flags": [
+          "AI-feltétel nincs teljesen ellenőrizve"
+        ],
+        "kind": "advertised_paid_issue",
+        "pull_requests": []
+      }
+    },
+    "https://github.com/C360Studio/semteams/issues/248": {
+      "status": "pending",
+      "created_at": "2026-10-17T14:40:08.847718+00:00",
+      "candidate": {
+        "url": "https://github.com/C360Studio/semteams/issues/248",
+        "title": "configs: no endpoint carries pricing, so agent.loop.cost-usd is never stamped",
+        "rewards": [
+          [
+            2.0,
+            "USD"
+          ],
+          [
+            12.0,
+            "USD"
+          ],
+          [
+            4.0,
+            "USD"
+          ],
+          [
+            18.0,
+            "USD"
+          ]
+        ],
+        "amount": 2.0,
+        "currency": "USD",
+        "checked_at": "2026-10-17T14:39:44.196398+00:00",
+        "updated_at": "2026-10-17T13:58:56Z",
+        "comments": 1,
+        "flags": [
+          "AI-feltétel nincs teljesen ellenőrizve",
+          "1 hozzászólás; versenyhelyzet ellenőrizendő"
+        ],
+        "kind": "advertised_paid_issue",
+        "pull_requests": []
+      }
+    },
+    "https://github.com/Agent-Field/agentfield/issues/1107": {
+      "status": "pending",
+      "created_at": "2026-10-17T14:40:08.847718+00:00",
+      "candidate": {
+        "url": "https://github.com/Agent-Field/agentfield/issues/1107",
+        "title": "Docs: fleet worst case is the sum of max_budget_usd caps plus one model call per worker (claude-code provider)",
+        "rewards": [
+          [
+            1.5,
+            "USD"
+          ],
+          [
+            12.0,
+            "USD"
+          ],
+          [
+            3.015,
+            "USD"
+          ],
+          [
+            9.045,
+            "USD"
+          ],
+          [
+            12.06,
+            "USD"
+          ],
+          [
+            6.03,
+            "USD"
+          ],
+          [
+            1.0,
+            "USD"
+          ]
+        ],
+        "amount": 1.5,
+        "currency": "USD",
+        "checked_at": "2026-10-17T14:39:44.708674+00:00",
+        "updated_at": "2026-10-17T00:26:09Z",
+        "comments": 1,
+        "flags": [
+          "AI-feltétel nincs teljesen ellenőrizve",
+          "1 hozzászólás; versenyhelyzet ellenőrizendő"
+        ],
+        "kind": "advertised_paid_issue",
+        "pull_requests": []
+      }
+    },
+    "https://github.com/Expensify/App/issues/103030": {
+      "status": "pending",
+      "created_at": "2026-10-17T14:40:08.847718+00:00",
+      "candidate": {
+        "url": "https://github.com/Expensify/App/issues/103030",
+        "title": "[$175] Search-\"Multiple tax export\" is suggested after typing for \"..USD-only workspace..\"",
+        "rewards": [
+          [
+            175.0,
+            "USD"
+          ]
+        ],
+        "amount": 175.0,
+        "currency": "USD",
+        "checked_at": "2026-10-17T14:39:45.264676+00:00",
+        "updated_at": "2026-10-16T21:52:37Z",
+        "comments": 15,
+        "flags": [
+          "Van hozzárendelt közreműködő",
+          "AI-feltétel nincs teljesen ellenőrizve",
+          "Kapcsolt PR: legalább 1"
+        ],
+        "kind": "advertised_paid_issue",
+        "pull_requests": [
+          "https://github.com/Expensify/App/pull/102876"
+        ]
+      }
+    },
+    "https://github.com/lifeguarddotsui-GPT/signal-desk-btc/issues/17": {
+      "status": "pending",
+      "created_at": "2026-10-17T14:40:08.847718+00:00",
+      "candidate": {
+        "url": "https://github.com/lifeguarddotsui-GPT/signal-desk-btc/issues/17",
+        "title": "Recover verified $5 WaterX USD account credit; unblock secure autonomous execution separately",
+        "rewards": [
+          [
+            5.0,
+            "USD"
+          ],
+          [
+            5.0,
+            "USDC"
+          ]
+        ],
+        "amount": 5.0,
+        "currency": "USD",
+        "checked_at": "2026-10-17T14:39:45.494404+00:00",
+        "updated_at": "2026-10-16T21:49:15Z",
+        "comments": 0,
+        "flags": [
+          "AI-feltétel nincs teljesen ellenőrizve"
+        ],
+        "kind": "advertised_paid_issue",
+        "pull_requests": []
+      }
     }
   },
   "last_success_at": "2026-10-17T08:43:33.230339+00:00"
