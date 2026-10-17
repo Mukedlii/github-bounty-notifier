@@ -890,7 +890,7 @@
       "sent_at": "2026-10-17T14:40:03.432166+00:00"
     },
     "https://github.com/Presago-Labs/presago-contracts/issues/44": {
-      "status": "pending",
+      "status": "sent",
       "created_at": "2026-10-17T14:40:05.464990+00:00",
       "candidate": {
         "url": "https://github.com/Presago-Labs/presago-contracts/issues/44",
@@ -912,10 +912,12 @@
         ],
         "kind": "advertised_paid_issue",
         "pull_requests": []
-      }
+      },
+      "message_id": 9,
+      "sent_at": "2026-10-17T14:40:06.946049+00:00"
     },
     "https://github.com/Nish916/revenue-command-runner/issues/1": {
-      "status": "pending",
+      "status": "sent",
       "created_at": "2026-10-17T14:40:05.464990+00:00",
       "candidate": {
         "url": "https://github.com/Nish916/revenue-command-runner/issues/1",
@@ -976,10 +978,12 @@
           "https://github.com/aLexzzz430/Cognitive-OS/pull/53",
           "https://github.com/Nish916/revenue-command-runner/pull/3"
         ]
-      }
+      },
+      "message_id": 9,
+      "sent_at": "2026-10-17T14:40:06.946067+00:00"
     },
     "https://github.com/p1ngtoohigh/Jarvus-Pub/issues/1": {
-      "status": "pending",
+      "status": "sent",
       "created_at": "2026-10-17T14:40:05.464990+00:00",
       "candidate": {
         "url": "https://github.com/p1ngtoohigh/Jarvus-Pub/issues/1",
@@ -1017,10 +1021,12 @@
         ],
         "kind": "advertised_paid_issue",
         "pull_requests": []
-      }
+      },
+      "message_id": 9,
+      "sent_at": "2026-10-17T14:40:06.946072+00:00"
     },
     "https://github.com/oll4com/spaceapp/issues/65": {
-      "status": "pending",
+      "status": "sent",
       "created_at": "2026-10-17T14:40:05.464990+00:00",
       "candidate": {
         "url": "https://github.com/oll4com/spaceapp/issues/65",
@@ -1048,10 +1054,12 @@
           "https://github.com/oll4com/spaceapp/pull/154",
           "https://github.com/oll4com/spaceapp/pull/156"
         ]
-      }
+      },
+      "message_id": 9,
+      "sent_at": "2026-10-17T14:40:06.946075+00:00"
     },
     "https://github.com/oll4com/spaceapp/issues/60": {
-      "status": "pending",
+      "status": "sent",
       "created_at": "2026-10-17T14:40:05.464990+00:00",
       "candidate": {
         "url": "https://github.com/oll4com/spaceapp/issues/60",
@@ -1078,7 +1086,9 @@
           "https://github.com/oll4com/spaceapp/pull/128",
           "https://github.com/oll4com/spaceapp/pull/157"
         ]
-      }
+      },
+      "message_id": 9,
+      "sent_at": "2026-10-17T14:40:06.946078+00:00"
     }
   },
   "last_success_at": "2026-10-17T08:43:33.230339+00:00"
