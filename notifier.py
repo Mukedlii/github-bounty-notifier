@@ -58,13 +58,29 @@ def request_json(url, token=None, data=None, method=None):
             with urllib.request.urlopen(req, timeout=30) as response:
                 return json.load(response)
         except urllib.error.HTTPError as exc:
+            github_reason = ''
+            if url.startswith(API + '/'):
+                try:
+                    api_message = json.loads(exc.read(4096)).get('message', '').lower()
+                except (ValueError, OSError):
+                    api_message = ''
+                for needle, label in (
+                    ('secondary rate limit', 'secondary rate limit'),
+                    ('api rate limit exceeded', 'API rate limit exceeded'),
+                    ('resource not accessible by integration', 'resource not accessible by integration'),
+                    ('requires authentication', 'authentication required'),
+                    ('bad credentials', 'bad credentials'),
+                ):
+                    if needle in api_message:
+                        github_reason = label
+                        break
             # Respect an explicit GitHub rate-limit reset. Retry only read-only
             # GitHub GETs, never Telegram sends or state writes.
             rate_limited = exc.code in (403, 429) and (
-                exc.headers.get('X-RateLimit-Remaining') == '0' or exc.headers.get('Retry-After'))
+                exc.headers.get('X-RateLimit-Remaining') == '0' or exc.headers.get('Retry-After') or 'rate limit' in github_reason)
             if rate_limited and data is None and method in (None, 'GET') and url.startswith(API + '/'):
                 try:
-                    delay = int(exc.headers.get('Retry-After') or max(1, int(exc.headers.get('X-RateLimit-Reset', '0')) - int(time.time()) + 1))
+                    delay = int(exc.headers.get('Retry-After') or (60 if github_reason == 'secondary rate limit' else max(1, int(exc.headers.get('X-RateLimit-Reset', '0')) - int(time.time()) + 1)))
                 except ValueError:
                     delay = 61
                 if attempt == 0 and 0 < delay <= 60:
@@ -73,7 +89,7 @@ def request_json(url, token=None, data=None, method=None):
                     continue
                 raise RuntimeError('GitHub API rate limit; scan incomplete, next scheduled run may retry') from None
             # Never include URLs, request headers, tokens or response bodies.
-            raise RuntimeError(f'HTTP {exc.code}; request failed, no automatic delivery retry') from None
+            raise RuntimeError(f'HTTP {exc.code}; {github_reason or "request failed"}; no automatic delivery retry') from None
         except (OSError, ValueError):
             raise RuntimeError('Network/JSON failure; request outcome may be unknown') from None
 
