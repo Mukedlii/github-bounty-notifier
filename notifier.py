@@ -250,6 +250,17 @@ def message(candidate):
         "Ne kezdj fizetetlen munkába pusztán ettől az értesítéstől.")
 
 
+def verify_telegram(token, chat_id):
+    base = 'https://api.telegram.org/bot' + token + '/'
+    me = request_json(base + 'getMe')
+    if me.get('ok') is not True or me.get('result', {}).get('username', '').lower() != 'github_ertesito_bot':
+        raise RuntimeError('Telegram bot identity not verified')
+    chat = request_json(base + 'getChat', data={'chat_id': chat_id})
+    result = chat.get('result', {})
+    if chat.get('ok') is not True or str(result.get('id')) != chat_id or result.get('type') != 'private':
+        raise RuntimeError('Telegram private recipient not verified')
+
+
 def deliver(state, candidate, send):
     key = candidate['url']
     if key in state.data['notifications']:
@@ -276,6 +287,8 @@ def main():
     repo = os.environ.get('GITHUB_REPOSITORY')
     if not args.dry_run and (not token or not telegram or not repo or hashlib.sha256(chat_id.encode()).hexdigest() != CHAT_ID_SHA256):
         raise RuntimeError('Missing runtime secrets or repository; sending disabled')
+    if not args.dry_run:
+        verify_telegram(telegram, chat_id)
     gh = GitHub(token)
     state = State(gh, repo, args.local_state) if not args.dry_run else None
     seen, candidates, failures = set(), [], 0
@@ -303,6 +316,9 @@ def main():
             sent += deliver(state, candidate, lambda text: request_json(
                 'https://api.telegram.org/bot' + telegram + '/sendMessage', data={
                     'chat_id': chat_id, 'text': text, 'link_preview_options': {'is_disabled': True}}))
+    if not args.dry_run and not failures and state.data.get('last_success_at', '')[:10] != now()[:10]:
+        state.data['last_success_at'] = now()
+        state.save()  # Daily durable checkpoint also verifies write permission.
     print(json.dumps({'discovered': len(seen), 'matching_candidates': len(candidates), 'sent': sent, 'candidate_check_errors': failures, 'dry_run': args.dry_run}))
     if failures:
         raise RuntimeError('Some candidates could not be verified; see error count')
