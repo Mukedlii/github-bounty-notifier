@@ -22,10 +22,10 @@ Nincs automatikus komment, jelentkezés, PR, szerződés vagy munkakezdés. Ninc
 
 ## Bekapcsolás
 
-1. A kód nyilvánosságra hozatalának jóváhagyása után legyen a repó public, kizárólag a standard `ubuntu-latest` runnerrel. A GitHub standard nyilvános Actions runner ingyenes; privát repóban a havi kvóta korlátozott. Fizetős csomagot és nagyobb runnert ne kapcsolj be.
+1. A kód nyilvánosságra hozatalának jóváhagyása után legyen a repó public, kizárólag a standard `ubuntu-24.04` runnerrel. A GitHub standard nyilvános Actions runner ingyenes; privát repóban a havi kvóta korlátozott. Fizetős csomagot és nagyobb runnert ne kapcsolj be.
 2. Settings → Secrets and variables → Actions → Secrets: `TELEGRAM_BOT_TOKEN` és `TELEGRAM_CHAT_ID`. **Soha ne kerüljön token a kódba, commitba, chatbe vagy naplóba.** A chat-azonosító is csak secretként tárolandó; a kód a korábban ellenőrzött címzett SHA-256 ujjlenyomatával ellenőrzi. A címzett a korábban ellenőrzött saját privát chat; a bot csak oda küldhet.
 3. Ugyanitt Variables: `ENABLE_SCHEDULE` értéke `true`.
-4. Actions → GitHub bounty notifier → Run workflow. Ellenőrizd, hogy `dry_run: false`, a tesztek és a keresés sikeres. Ha nincs megfelelő új jelölt, nem érkezik Telegram-üzenet.
+4. Actions → GitHub bounty notifier → Run workflow. A `dry_run` alapból igaz, ilyenkor biztosan nincs küldés. Az éles ellenőrzéshez kapcsold ki. Ellenőrizd, hogy `dry_run: false`, a tesztek és a keresés sikeres. Ha nincs megfelelő új jelölt, nem érkezik Telegram-üzenet.
 
 A cron `2-59/5 * * * *`, azaz az óra 02, 07, 12, … 57. percében indulhat. A GitHub késleltetheti vagy eldobhatja a futást: **nem garantált 5 perces szolgáltatás**. Nyilvános repóban 60 napnyi repóaktivitás-hiány után a GitHub kikapcsolhatja az ütemezést. Kikapcsolás: `ENABLE_SCHEDULE=false`, vagy Disable workflow.
 
