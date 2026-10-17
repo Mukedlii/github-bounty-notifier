@@ -138,6 +138,144 @@
       },
       "message_id": 3,
       "sent_at": "2026-10-17T14:39:47.172240+00:00"
+    },
+    "https://github.com/SecureBananaLabs/bug-bounty/issues/76": {
+      "status": "pending",
+      "created_at": "2026-10-17T14:39:49.146891+00:00",
+      "candidate": {
+        "url": "https://github.com/SecureBananaLabs/bug-bounty/issues/76",
+        "title": "Technical Poem Generation and Content Creation",
+        "rewards": [
+          [
+            430.0,
+            "USD"
+          ]
+        ],
+        "amount": 430.0,
+        "currency": "USD",
+        "checked_at": "2026-10-17T14:39:20.201052+00:00",
+        "updated_at": "2026-10-17T09:05:59Z",
+        "comments": 254,
+        "flags": [
+          "AI-feltétel nincs teljesen ellenőrizve",
+          "Kapcsolt PR: legalább 1"
+        ],
+        "kind": "advertised_paid_issue",
+        "pull_requests": [
+          "https://github.com/SecureBananaLabs/bug-bounty/pull/13296"
+        ]
+      }
+    },
+    "https://github.com/iii123iii/Crystal-PDF/issues/3": {
+      "status": "pending",
+      "created_at": "2026-10-17T14:39:49.146891+00:00",
+      "candidate": {
+        "url": "https://github.com/iii123iii/Crystal-PDF/issues/3",
+        "title": "Bug bounty 100 usd to whoever makes my landing page responsive for mobile",
+        "rewards": [
+          [
+            100.0,
+            "USD"
+          ]
+        ],
+        "amount": 100.0,
+        "currency": "USD",
+        "checked_at": "2026-10-17T14:39:22.090164+00:00",
+        "updated_at": "2026-10-17T07:59:11Z",
+        "comments": 58,
+        "flags": [
+          "AI-feltétel nincs teljesen ellenőrizve",
+          "58 hozzászólás; versenyhelyzet ellenőrizendő"
+        ],
+        "kind": "advertised_paid_issue",
+        "pull_requests": []
+      }
+    },
+    "https://github.com/claude-builders-bounty/claude-builders-bounty/issues/5": {
+      "status": "pending",
+      "created_at": "2026-10-17T14:39:49.146891+00:00",
+      "candidate": {
+        "url": "https://github.com/claude-builders-bounty/claude-builders-bounty/issues/5",
+        "title": "[BOUNTY $200] WORKFLOW: n8n + Claude Code — automated weekly dev summary",
+        "rewards": [
+          [
+            200.0,
+            "USD"
+          ]
+        ],
+        "amount": 200.0,
+        "currency": "USD",
+        "checked_at": "2026-10-17T14:39:22.773734+00:00",
+        "updated_at": "2026-10-17T06:31:00Z",
+        "comments": 1264,
+        "flags": [
+          "AI-feltétel nincs teljesen ellenőrizve",
+          "Kapcsolt PR: legalább 3"
+        ],
+        "kind": "advertised_paid_issue",
+        "pull_requests": [
+          "https://github.com/claude-builders-bounty/claude-builders-bounty/pull/4845",
+          "https://github.com/claude-builders-bounty/claude-builders-bounty/pull/4892",
+          "https://github.com/claude-builders-bounty/claude-builders-bounty/pull/4888"
+        ]
+      }
+    },
+    "https://github.com/claude-builders-bounty/claude-builders-bounty/issues/3": {
+      "status": "pending",
+      "created_at": "2026-10-17T14:39:49.146891+00:00",
+      "candidate": {
+        "url": "https://github.com/claude-builders-bounty/claude-builders-bounty/issues/3",
+        "title": "[BOUNTY $100] HOOK: Pre-tool-use hook that blocks destructive bash commands",
+        "rewards": [
+          [
+            100.0,
+            "USD"
+          ]
+        ],
+        "amount": 100.0,
+        "currency": "USD",
+        "checked_at": "2026-10-17T14:39:23.441907+00:00",
+        "updated_at": "2026-10-17T06:27:53Z",
+        "comments": 1858,
+        "flags": [
+          "AI-feltétel nincs teljesen ellenőrizve",
+          "Kapcsolt PR: legalább 3"
+        ],
+        "kind": "advertised_paid_issue",
+        "pull_requests": [
+          "https://github.com/claude-builders-bounty/claude-builders-bounty/pull/4842",
+          "https://github.com/claude-builders-bounty/claude-builders-bounty/pull/4874",
+          "https://github.com/claude-builders-bounty/claude-builders-bounty/pull/4907"
+        ]
+      }
+    },
+    "https://github.com/claude-builders-bounty/claude-builders-bounty/issues/1": {
+      "status": "pending",
+      "created_at": "2026-10-17T14:39:49.146891+00:00",
+      "candidate": {
+        "url": "https://github.com/claude-builders-bounty/claude-builders-bounty/issues/1",
+        "title": "[BOUNTY $50] SKILL: Generate a structured CHANGELOG from git history",
+        "rewards": [
+          [
+            50.0,
+            "USD"
+          ]
+        ],
+        "amount": 50.0,
+        "currency": "USD",
+        "checked_at": "2026-10-17T14:39:24.097967+00:00",
+        "updated_at": "2026-10-17T06:27:33Z",
+        "comments": 2354,
+        "flags": [
+          "AI-feltétel nincs teljesen ellenőrizve",
+          "Kapcsolt PR: legalább 2"
+        ],
+        "kind": "advertised_paid_issue",
+        "pull_requests": [
+          "https://github.com/claude-builders-bounty/claude-builders-bounty/pull/4841",
+          "https://github.com/claude-builders-bounty/claude-builders-bounty/pull/4894"
+        ]
+      }
     }
   },
   "last_success_at": "2026-10-17T08:43:33.230339+00:00"
