@@ -1296,6 +1296,37 @@
       },
       "message_id": 11,
       "sent_at": "2026-10-17T14:40:13.709030+00:00"
+    },
+    "https://github.com/oll4com/spaceapp/issues/61": {
+      "status": "pending",
+      "created_at": "2026-10-17T14:50:44.076491+00:00",
+      "candidate": {
+        "url": "https://github.com/oll4com/spaceapp/issues/61",
+        "title": "[$600] Export worker and workflow spans over OTLP: one trace from API request to every Temporal activity",
+        "rewards": [
+          [
+            600.0,
+            "USD"
+          ]
+        ],
+        "amount": 600.0,
+        "currency": "USD",
+        "checked_at": "2026-10-17T14:50:42.939290+00:00",
+        "updated_at": "2026-10-17T14:50:20Z",
+        "comments": 22,
+        "flags": [
+          "AI-feltétel nincs teljesen ellenőrizve",
+          "Kapcsolt PR: legalább 4",
+          "Korábbi teljesítés/kifizetés is szerepel a beszélgetésben"
+        ],
+        "kind": "advertised_paid_issue",
+        "pull_requests": [
+          "https://github.com/oll4com/spaceapp/pull/112",
+          "https://github.com/oll4com/spaceapp/pull/145",
+          "https://github.com/oll4com/spaceapp/pull/147",
+          "https://github.com/oll4com/spaceapp/pull/151"
+        ]
+      }
     }
   },
   "last_success_at": "2026-10-17T14:45:43.568158+00:00",
