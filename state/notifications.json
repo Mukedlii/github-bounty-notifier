@@ -1599,12 +1599,12 @@
       "sent_at": "2026-10-17T21:53:44.467819+00:00"
     }
   },
-  "last_success_at": "2026-10-17T21:48:39.980143+00:00",
-  "last_scan_at": "2026-10-17T21:48:39.980137+00:00",
+  "last_success_at": "2026-10-17T21:53:46.540587+00:00",
+  "last_scan_at": "2026-10-17T21:53:46.540547+00:00",
   "last_scan": {
-    "discovered": 144,
-    "matches": 0,
-    "sent": 0,
+    "discovered": 145,
+    "matches": 1,
+    "sent": 1,
     "check_errors": 0
   }
 }
