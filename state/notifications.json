@@ -1564,6 +1564,37 @@
       },
       "message_id": 20,
       "sent_at": "2026-10-17T21:02:38.241233+00:00"
+    },
+    "https://github.com/SecureBananaLabs/bug-bounty/issues/13331": {
+      "status": "pending",
+      "created_at": "2026-10-17T21:53:42.887607+00:00",
+      "candidate": {
+        "url": "https://github.com/SecureBananaLabs/bug-bounty/issues/13331",
+        "title": "PAYMENT: USDC on Base wallet (Opire/Algora deliveries)",
+        "rewards": [
+          [
+            780.0,
+            "USD"
+          ],
+          [
+            430.0,
+            "USD"
+          ]
+        ],
+        "amount": 780.0,
+        "currency": "USD",
+        "checked_at": "2026-10-17T21:53:38.830404+00:00",
+        "created_at": "2026-10-16T17:50:00Z",
+        "updated_at": "2026-10-17T21:49:26Z",
+        "comments": 1,
+        "flags": [
+          "AI-munkamód és kifizetés karbantartói megerősítése szükséges",
+          "1 hozzászólás; versenyhelyzet ellenőrizendő"
+        ],
+        "kind": "potential_ai_task",
+        "pull_requests": [],
+        "assessment": "Szabályalapú előszűrés; megoldhatóság nem garantált"
+      }
     }
   },
   "last_success_at": "2026-10-17T21:48:39.980143+00:00",
