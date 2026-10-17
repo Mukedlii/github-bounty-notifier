@@ -32,6 +32,43 @@ class NotifierTests(unittest.TestCase):
     def test_no_amount_from_applicant(self):
         self.assertIsNone(n.preliminary(self.issue(title='CSV parser bounty', body='Python validation requirements: fix quoted values.'), 'example/project'))
 
+    def fake_github(self, *, policy=True, comments=None, timeline=None, pr_count=0, changed=False):
+        issue = self.issue(html_url='https://github.com/example/project/issues/1', user={'login': 'sponsor'}, updated_at='2026-10-17T08:00:00Z')
+        if policy:
+            issue['body'] += ' AI-assisted work is allowed. Payment via PayPal.'
+        calls = [0]
+        gh = Mock()
+        def get(path):
+            if path == '/repos/example/project/issues/1':
+                calls[0] += 1
+                value = dict(issue)
+                if changed and calls[0] > 1:
+                    value['state'] = 'closed'
+                return value
+            if path == '/repos/example/project':
+                return {'owner': {'login': 'maintainer'}, 'created_at': '2020-01-01T00:00:00Z', 'stargazers_count': 10}
+            if path.startswith('/search/issues?'):
+                return {'total_count': pr_count, 'incomplete_results': False}
+            raise RuntimeError('HTTP 404; not found')
+        gh.get.side_effect = get
+        gh.pages.side_effect = lambda path: (comments or []) if path.endswith('/comments') else (timeline or [])
+        return gh
+
+    def test_assess_requires_ai_and_payment_terms(self):
+        item = {'html_url': 'https://github.com/example/project/issues/1'}
+        self.assertIsNotNone(n.assess(self.fake_github(), item))
+        self.assertIsNone(n.assess(self.fake_github(policy=False), item))
+        applicant = {'author_association': 'NONE', 'user': {'login': 'applicant'}, 'body': 'AI is allowed. Payment via Wise.'}
+        self.assertIsNone(n.assess(self.fake_github(policy=False, comments=[applicant]), item))
+
+    def test_assess_rejects_competition_and_owner_allocation(self):
+        item = {'html_url': 'https://github.com/example/project/issues/1'}
+        owner = {'author_association': 'OWNER', 'user': {'login': 'maintainer'}, 'body': 'Proposal accepted, assigned to another contributor.'}
+        self.assertIsNone(n.assess(self.fake_github(comments=[owner]), item))
+        self.assertIsNone(n.assess(self.fake_github(pr_count=1), item))
+        self.assertIsNone(n.assess(self.fake_github(timeline=[{'source': {'issue': {'pull_request': { 'url': 'PR'}}}}]), item))
+        self.assertIsNone(n.assess(self.fake_github(changed=True), item))
+
     def test_uncertain_send_never_retried(self):
         with tempfile.TemporaryDirectory() as directory:
             path = str(Path(directory) / 'state.json')
