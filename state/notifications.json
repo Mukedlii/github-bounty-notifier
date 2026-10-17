@@ -1597,6 +1597,40 @@
       },
       "message_id": 21,
       "sent_at": "2026-10-17T21:53:44.467819+00:00"
+    },
+    "https://github.com/paraloom-labs/paraloom-core/issues/1000": {
+      "status": "pending",
+      "created_at": "2026-10-17T22:54:43.846058+00:00",
+      "candidate": {
+        "url": "https://github.com/paraloom-labs/paraloom-core/issues/1000",
+        "title": "[BOUNTY] Medium: transact_spl records no SPL withdrawal volume — the native total_withdrawn ledger has no SPL counterpart",
+        "rewards": [
+          [
+            100.0,
+            "USD"
+          ],
+          [
+            50.0,
+            "USD"
+          ],
+          [
+            150.0,
+            "USD"
+          ]
+        ],
+        "amount": 100.0,
+        "currency": "USD",
+        "checked_at": "2026-10-17T22:54:34.739727+00:00",
+        "created_at": "2026-10-17T22:50:33Z",
+        "updated_at": "2026-10-17T22:50:33Z",
+        "comments": 0,
+        "flags": [
+          "AI-munkamód és kifizetés karbantartói megerősítése szükséges"
+        ],
+        "kind": "potential_ai_task",
+        "pull_requests": [],
+        "assessment": "Szabályalapú előszűrés; megoldhatóság nem garantált"
+      }
     }
   },
   "last_success_at": "2026-10-17T22:49:42.757730+00:00",
