@@ -1419,6 +1419,32 @@
       },
       "message_id": 15,
       "sent_at": "2026-10-17T15:41:32.940973+00:00"
+    },
+    "https://github.com/HCTDIP/corps-jobs/issues/101": {
+      "status": "pending",
+      "created_at": "2026-10-17T16:01:41.508494+00:00",
+      "candidate": {
+        "url": "https://github.com/HCTDIP/corps-jobs/issues/101",
+        "title": "Railway 赏金：有 7 条值得抢",
+        "rewards": [
+          [
+            10.0,
+            "USD"
+          ]
+        ],
+        "amount": 10.0,
+        "currency": "USD",
+        "checked_at": "2026-10-17T16:01:40.285560+00:00",
+        "created_at": "2026-10-17T15:57:07Z",
+        "updated_at": "2026-10-17T15:57:07Z",
+        "comments": 0,
+        "flags": [
+          "AI-munkamód és kifizetés karbantartói megerősítése szükséges"
+        ],
+        "kind": "potential_ai_task",
+        "pull_requests": [],
+        "assessment": "Szabályalapú előszűrés; megoldhatóság nem garantált"
+      }
     }
   },
   "last_success_at": "2026-10-17T15:56:40.428736+00:00",
