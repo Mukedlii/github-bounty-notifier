@@ -1,0 +1,69 @@
+name: GitHub bounty notifier
+on:
+  schedule:
+    - cron: '2-59/5 * * * *'
+  workflow_dispatch:
+  push:
+    paths:
+      - 'notifier.py'
+      - 'tests/**'
+      - '.github/workflows/watch.yml'
+permissions:
+  contents: read
+concurrency:
+  group: bounty-notifier
+  cancel-in-progress: false
+jobs:
+  tests:
+    if: github.event_name != 'schedule' || vars.ENABLE_SCHEDULE == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -s tests -v
+  scan:
+    needs: tests
+    if: github.event_name != 'push' && (github.event_name != 'schedule' || vars.ENABLE_SCHEDULE == 'true')
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Scan and notify (dry run if Telegram secret is absent)
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        shell: bash
+        run: |
+          if [ -n "$TELEGRAM_BOT_TOKEN" ] && [ -n "$TELEGRAM_CHAT_ID" ]; then
+            python notifier.py
+          else
+            echo 'Telegram secret missing: running without messages or state writes.'
+            python notifier.py --dry-run
+          fi
+      - name: Summary
+        if: always()
+        shell: bash
+        run: |
+          if [ -f run-report.json ]; then
+            python - <<'PY'
+          import json, os
+          r = json.load(open('run-report.json'))
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
+              f.write('## Bounty scan\n')
+              for key in ('checked_at', 'discovered', 'candidate_check_errors', 'dry_run'):
+                  f.write(f'- {key}: {r[key]}\n')
+              f.write(f'- rule-filtered candidates: {len(r["candidates"])}\n')
+          PY
