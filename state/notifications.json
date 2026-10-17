@@ -729,6 +729,155 @@
       },
       "message_id": 7,
       "sent_at": "2026-10-17T14:40:00.102392+00:00"
+    },
+    "https://github.com/paraloom-labs/paraloom-wallet/issues/89": {
+      "status": "pending",
+      "created_at": "2026-10-17T14:40:02.168183+00:00",
+      "candidate": {
+        "url": "https://github.com/paraloom-labs/paraloom-wallet/issues/89",
+        "title": "[BOUNTY] Medium: Uncaught transient RPC errors aborting waitForFunding/waitForSwapConfirmation settlement polls, inpage PRIVATE_SWAP stale GET_SWAP_STATUS resolution, fetchV3Leaves intra-slot/payload bounds, and base58Decode/v0 recoverReshieldedNote defects (paraloom-wallet)",
+        "rewards": [
+          [
+            150.0,
+            "USD"
+          ]
+        ],
+        "amount": 150.0,
+        "currency": "USD",
+        "checked_at": "2026-10-17T14:39:36.551317+00:00",
+        "updated_at": "2026-10-17T13:45:09Z",
+        "comments": 1,
+        "flags": [
+          "AI-feltétel nincs teljesen ellenőrizve",
+          "Kapcsolt PR: legalább 1"
+        ],
+        "kind": "advertised_paid_issue",
+        "pull_requests": [
+          "https://github.com/paraloom-labs/paraloom-wallet/pull/90"
+        ]
+      }
+    },
+    "https://github.com/paraloom-labs/paraloom-core/issues/893": {
+      "status": "pending",
+      "created_at": "2026-10-17T14:40:02.168183+00:00",
+      "candidate": {
+        "url": "https://github.com/paraloom-labs/paraloom-core/issues/893",
+        "title": "[BOUNTY] Medium: VoteTally::has_consensus and consensus_result prematurely declare Invalid consensus on mixed votes before remaining validators vote",
+        "rewards": [
+          [
+            150.0,
+            "USD"
+          ]
+        ],
+        "amount": 150.0,
+        "currency": "USD",
+        "checked_at": "2026-10-17T14:39:37.100588+00:00",
+        "updated_at": "2026-10-17T13:35:36Z",
+        "comments": 1,
+        "flags": [
+          "AI-feltétel nincs teljesen ellenőrizve",
+          "Kapcsolt PR: legalább 1"
+        ],
+        "kind": "advertised_paid_issue",
+        "pull_requests": [
+          "https://github.com/paraloom-labs/paraloom-core/pull/984"
+        ]
+      }
+    },
+    "https://github.com/SUSU-LABS/susu-api/issues/63": {
+      "status": "pending",
+      "created_at": "2026-10-17T14:40:02.168183+00:00",
+      "candidate": {
+        "url": "https://github.com/SUSU-LABS/susu-api/issues/63",
+        "title": "[Bounty: $80] Bound Soroban RPC simulation with a timeout and surface upstream failures as 502/503",
+        "rewards": [
+          [
+            80.0,
+            "USD"
+          ]
+        ],
+        "amount": 80.0,
+        "currency": "USD",
+        "checked_at": "2026-10-17T14:39:37.617761+00:00",
+        "updated_at": "2026-10-17T13:24:18Z",
+        "comments": 11,
+        "flags": [
+          "AI-feltétel nincs teljesen ellenőrizve",
+          "Kapcsolt PR: legalább 1"
+        ],
+        "kind": "advertised_paid_issue",
+        "pull_requests": [
+          "https://github.com/SUSU-LABS/susu-api/pull/140"
+        ]
+      }
+    },
+    "https://github.com/limitlessprojects/Go-Hybrid/issues/5": {
+      "status": "pending",
+      "created_at": "2026-10-17T14:40:02.168183+00:00",
+      "candidate": {
+        "url": "https://github.com/limitlessprojects/Go-Hybrid/issues/5",
+        "title": "Bounty track: hunt accepted-but-unsound programs at the task boundary",
+        "rewards": [
+          [
+            500.0,
+            "USD"
+          ],
+          [
+            75.0,
+            "USD"
+          ],
+          [
+            60.0,
+            "USD"
+          ],
+          [
+            50.0,
+            "USD"
+          ],
+          [
+            45.0,
+            "USD"
+          ]
+        ],
+        "amount": 500.0,
+        "currency": "USD",
+        "checked_at": "2026-10-17T14:39:38.220258+00:00",
+        "updated_at": "2026-10-17T13:18:59Z",
+        "comments": 31,
+        "flags": [
+          "AI-feltétel nincs teljesen ellenőrizve",
+          "Kapcsolt PR: legalább 1"
+        ],
+        "kind": "advertised_paid_issue",
+        "pull_requests": [
+          "https://github.com/limitlessprojects/Go-Hybrid/pull/306"
+        ]
+      }
+    },
+    "https://github.com/angeloasante/Diaspora_AI_Visa_data/issues/6": {
+      "status": "pending",
+      "created_at": "2026-10-17T14:40:02.168183+00:00",
+      "candidate": {
+        "url": "https://github.com/angeloasante/Diaspora_AI_Visa_data/issues/6",
+        "title": "[Bounty eligibility] UK-visa → Albania correction prepared with official sources",
+        "rewards": [
+          [
+            10.0,
+            "GBP"
+          ]
+        ],
+        "amount": 10.0,
+        "currency": "GBP",
+        "checked_at": "2026-10-17T14:39:38.675164+00:00",
+        "updated_at": "2026-10-17T13:14:50Z",
+        "comments": 2,
+        "flags": [
+          "AI-feltétel nincs teljesen ellenőrizve",
+          "2 hozzászólás; versenyhelyzet ellenőrizendő"
+        ],
+        "kind": "advertised_paid_issue",
+        "pull_requests": []
+      }
     }
   },
   "last_success_at": "2026-10-17T08:43:33.230339+00:00"
