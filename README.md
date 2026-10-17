@@ -2,7 +2,7 @@
 
 Önálló, Python standard könyvtáras GitHub Actions kereső, Telegram-értesítéssel. Nincs AI API, előfizetés, fizetett szolgáltatás vagy helyi gépigény.
 
-**Állapot:** előkészített repó. A rendszeres futás csak az `ENABLE_SCHEDULE=true` repository variable beállítása után indul. A Telegramhoz `TELEGRAM_BOT_TOKEN` és `TELEGRAM_CHAT_ID` Actions secret szükséges. Ezek nélkül nem küld üzenetet. A privát repóban az ütemezést kikapcsolva hagyjuk, hogy ne fogyassza a korlátozott ingyenes perceket.
+**Állapot:** élesítés bekapcsolva 2026-10-17-én. A repó nyilvános, az `ENABLE_SCHEDULE=true`, a Telegram-token és a címzettazonosító Actions Secretként van tárolva. Az ütemezés ötperces; a GitHub késései miatt a pontos indulás nem garantált. A futási eredmények az Actions oldalon ellenőrizhetők.
 
 ## Mit csinál?
 
@@ -12,6 +12,8 @@
 - Ismert kizárt vagy túlzsúfolt projektek, nehéz infrastruktúrás feladatok, tesztpénz, emberi felülvizsgálatot megkövetelő és AI-t tiltó feltételek kiszűrése.
 - **Csak explicit AI-engedély és megnevezett fizetési csatorna esetén küld automatikus jelöltértesítést.** Ez szigorú, ezért sok egyébként megfelelő munka kimaradhat.
 - Ugyanarról az issue-ról legfeljebb egy értesítés; futásonként legfeljebb 3 üzenet. A nyilvános állapotfájl csak nyilvános issue-adatokat és Telegram message_id-t tárol, tokent és személyes adatot nem.
+- Éles futás előtt ellenőrzi a Telegram-bot személyazonosságát és a saját privát címzett elérhetőségét, üzenetküldés nélkül.
+- Naponta egyszer sikeres keresési ellenőrzőpontot ment az állapotfájlba; ez az írási jogosultságot is ténylegesen ellenőrzi.
 - Küldés előtt tartós `pending` állapotot ír. Bizonytalan hálózati kimenet esetén nem ismétel vakon; a `pending` rekordot kézzel kell ellenőrizni.
 
 ## Mit nem bizonyít?
