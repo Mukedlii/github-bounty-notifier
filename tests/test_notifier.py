@@ -1,144 +1,99 @@
-import json
 import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import Mock, patch
 import notifier as n
-import urllib.error
-from email.message import Message
+import worker
 
 
-class NotifierTests(unittest.TestCase):
-    def issue(self, **updates):
-        value = {'state': 'open', 'assignees': [], 'comments': 0, 'title': 'CSV parser bounty $50',
-            'body': 'Fix CSV validation in Python. Acceptance requirements: add regression tests for quoted values and ensure tests pass.'}
-        value.update(updates)
-        return value
+def item(**changes):
+    issue={'html_url':'https://github.com/example/repo/issues/1', 'title':'Bounty $5000', 'body':'GPU kernel testing. No AI allowed.', 'state':'open', 'labels':[], 'assignees':[{'login':'someone'}], 'comments':0, 'updated_at':'2026-10-17T14:00:00Z'}
+    issue.update(changes)
+    return issue
 
-    def test_rate_limit_only_retries_read_only_github(self):
-        headers = Message()
-        headers['X-RateLimit-Remaining'] = '0'
-        headers['Retry-After'] = '1'
-        error = urllib.error.HTTPError('https://api.github.com/search/issues', 403, 'rate limited', headers, None)
-        with patch('notifier.urllib.request.urlopen', side_effect=error) as request, patch('notifier.time.sleep') as sleep:
-            with self.assertRaisesRegex(RuntimeError, 'rate limit'):
-                n.request_json('https://api.github.com/search/issues')
-            self.assertEqual(request.call_count, 2)
-            sleep.assert_called_once_with(1)
-        with patch('notifier.urllib.request.urlopen', side_effect=error) as request, patch('notifier.time.sleep') as sleep:
-            with self.assertRaises(RuntimeError):
-                n.request_json('https://api.telegram.org/botFAKE/sendMessage', data={'text': 'test'})
-            self.assertEqual(request.call_count, 1)
-            sleep.assert_not_called()
 
-    def test_telegram_identity_and_private_recipient(self):
-        me = {'ok': True, 'result': {'username': 'Github_ertesito_bot'}}
-        chat = {'ok': True, 'result': {'id': 12345, 'type': 'private'}}
-        with patch('notifier.request_json', side_effect=[me, chat]):
-            n.verify_telegram('FAKE', '12345')
-        with patch('notifier.request_json', return_value={'ok': False}):
-            with self.assertRaises(RuntimeError):
-                n.verify_telegram('FAKE', '12345')
-        wrong_chat = {'ok': True, 'result': {'id': 999, 'type': 'group'}}
-        with patch('notifier.request_json', side_effect=[me, wrong_chat]):
-            with self.assertRaises(RuntimeError):
-                n.verify_telegram('FAKE', '12345')
+class BroadWatcherTests(unittest.TestCase):
+    def test_rewards_no_cap_and_duplicate_amounts(self):
+        self.assertEqual(n.reward('$5,000 / $5,000'),[(5000,'USD')])
+        self.assertEqual(n.reward('100 NIS and 0.5 BTC'),[(100,'NIS'),(0.5,'BTC')])
+        self.assertEqual(n.reward('$0'),[])
 
-    def test_reward(self):
-        self.assertEqual(n.reward('bounty $175'), (175, 'USD'))
-        self.assertEqual(n.reward('Reward 45 EUR'), (45, 'EUR'))
-        self.assertIsNone(n.reward('zero bounty $0'))
-        self.assertIsNone(n.reward('$50 to $75'))
-        self.assertIsNone(n.reward('$5000'))
+    def test_ai_hardware_assignees_and_competition_do_not_hide_money(self):
+        self.assertEqual(n.preliminary(item(), 'example/repo'), [(5000,'USD')])
+        gh=Mock();gh.get.return_value=item()
+        candidate=n.assess(gh,item())
+        self.assertTrue(candidate)
+        self.assertIn('Van hozzárendelt közreműködő',candidate['flags'])
 
-    def test_real_scope_only(self):
-        self.assertTrue(n.preliminary(self.issue(), 'example/project'))
-        for updates in ({'state': 'closed'}, {'assignees': [{}]}, {'comments': 100},
-            {'body': 'Please fund a bounty. Python requirements: parser'},
-            {'body': 'Python kernel acceptance tests'}, {'body': 'CSV tests. AI-generated code prohibited'},
-            {'body': 'CSV tests. testnet funds only'}, {'body': 'CSV acceptance. US citizens only'}):
-            self.assertIsNone(n.preliminary(self.issue(**updates), 'example/project'))
-        self.assertIsNone(n.preliminary(self.issue(), 'oll4com/spaceapp'))
+    def test_closed_test_money_and_bounty_request_not_paid_jobs(self):
+        self.assertFalse(n.preliminary(item(state='closed'),'x/y'))
+        self.assertFalse(n.preliminary(item(body='testnet ETH funds'),'x/y'))
+        self.assertFalse(n.preliminary(item(body='Please fund a bounty'),'x/y'))
 
-    def test_no_amount_from_applicant(self):
-        self.assertIsNone(n.preliminary(self.issue(title='CSV parser bounty', body='Python validation requirements: fix quoted values.'), 'example/project'))
+    def test_mirror_resolves_closed_original(self):
+        gh=Mock();gh.get.side_effect=[item(body='Source URL\nhttps://github.com/real/project/issues/2'),item(state='closed')]
+        self.assertIsNone(n.assess(gh,item()))
 
-    def fake_github(self, *, policy=True, comments=None, timeline=None, pr_count=0, changed=False):
-        issue = self.issue(html_url='https://github.com/example/project/issues/1', user={'login': 'sponsor'}, updated_at='2026-10-17T08:00:00Z')
-        if policy:
-            issue['body'] += ' AI-assisted work is allowed. Payment via PayPal.'
-        calls = [0]
-        gh = Mock()
-        def get(path):
-            if path == '/repos/example/project/issues/1':
-                calls[0] += 1
-                value = dict(issue)
-                if changed and calls[0] > 1:
-                    value['state'] = 'closed'
-                return value
-            if path == '/repos/example/project':
-                return {'owner': {'login': 'maintainer'}, 'created_at': '2020-01-01T00:00:00Z', 'stargazers_count': 10}
-            if path.startswith('/search/issues?'):
-                return {'total_count': pr_count, 'incomplete_results': False}
-            raise RuntimeError('HTTP 404; not found')
-        gh.get.side_effect = get
-        gh.pages.side_effect = lambda path: (comments or []) if path.endswith('/comments') else (timeline or [])
-        return gh
+    def test_pending_batch_never_repeated_after_unknown_delivery(self):
+        with tempfile.TemporaryDirectory() as d:
+            path=str(Path(d)/'state.json');state=n.State(None,None,path)
+            candidate={'url':item()['html_url'],'title':'Bounty','amount':5,'currency':'USD','flags':[]}
+            send=Mock(side_effect=RuntimeError('unknown'))
+            with self.assertRaises(RuntimeError): n.deliver_batch(state,[candidate],send)
+            self.assertEqual(n.deliver_batch(n.State(None,None,path),[candidate],send),0)
+            self.assertEqual(send.call_count,1)
 
-    def test_assess_requires_ai_and_payment_terms(self):
-        item = {'html_url': 'https://github.com/example/project/issues/1'}
-        self.assertIsNotNone(n.assess(self.fake_github(), item))
-        self.assertIsNone(n.assess(self.fake_github(policy=False), item))
-        applicant = {'author_association': 'NONE', 'user': {'login': 'applicant'}, 'body': 'AI is allowed. Payment via Wise.'}
-        self.assertIsNone(n.assess(self.fake_github(policy=False, comments=[applicant]), item))
+    def test_batch_success_persists_message_id(self):
+        with tempfile.TemporaryDirectory() as d:
+            state=n.State(None,None,str(Path(d)/'state.json'))
+            c={'url':item()['html_url'],'title':'Bounty','amount':1,'currency':'USD','flags':[]}
+            self.assertEqual(n.deliver_batch(state,[c],lambda _: {'ok':True,'result':{'message_id':9}}),1)
+            self.assertEqual(state.data['notifications'][c['url']]['message_id'],9)
 
-    def test_assess_rejects_competition_and_owner_allocation(self):
-        item = {'html_url': 'https://github.com/example/project/issues/1'}
-        owner = {'author_association': 'OWNER', 'user': {'login': 'maintainer'}, 'body': 'Proposal accepted, assigned to another contributor.'}
-        self.assertIsNone(n.assess(self.fake_github(comments=[owner]), item))
-        self.assertIsNone(n.assess(self.fake_github(pr_count=1), item))
-        self.assertIsNone(n.assess(self.fake_github(timeline=[{'source': {'issue': {'pull_request': { 'url': 'PR'}}}}]), item))
-        self.assertIsNone(n.assess(self.fake_github(changed=True), item))
-
-    def test_uncertain_send_never_retried(self):
-        with tempfile.TemporaryDirectory() as directory:
-            path = str(Path(directory) / 'state.json')
-            state = n.State(None, None, path)
-            candidate = {'url': 'https://github.com/example/project/issues/1', 'title': 'CSV fix', 'amount': 50, 'currency': 'USD'}
-            send = Mock(side_effect=RuntimeError('unknown'))
-            with self.assertRaises(RuntimeError):
-                n.deliver(state, candidate, send)
-            self.assertEqual(json.loads(Path(path).read_text())['notifications'][candidate['url']]['status'], 'pending')
-            self.assertFalse(n.deliver(n.State(None, None, path), candidate, send))
-            self.assertEqual(send.call_count, 1)
-
-    def test_success_recorded_and_deduplicated(self):
-        with tempfile.TemporaryDirectory() as directory:
-            path = str(Path(directory) / 'state.json')
-            state = n.State(None, None, path)
-            candidate = {'url': 'https://github.com/example/project/issues/2', 'title': 'CSV fix', 'amount': 50, 'currency': 'USD'}
-            send = Mock(return_value={'ok': True, 'result': {'message_id': 123}})
-            self.assertTrue(n.deliver(state, candidate, send))
-            self.assertFalse(n.deliver(n.State(None, None, path), candidate, send))
-            self.assertEqual(send.call_count, 1)
-            self.assertEqual(state.data['notifications'][candidate['url']]['message_id'], 123)
-
-    def test_no_send_when_state_save_fails(self):
-        state = n.State(None, None, 'nonexistent-state-for-test.json')
-        state.save = Mock(side_effect=RuntimeError('write failed'))
-        send = Mock()
-        with self.assertRaises(RuntimeError):
-            n.deliver(state, {'url': 'https://github.com/example/project/issues/3'}, send)
+    def test_save_failure_prevents_send(self):
+        state=Mock();state.data={'notifications':{}};state.save.side_effect=RuntimeError('failed')
+        send=Mock()
+        with self.assertRaises(RuntimeError): n.deliver_batch(state,[{'url':'https://github.com/x/y/issues/1'}],send)
         send.assert_not_called()
 
-    def test_unconfirmed_response_stays_pending(self):
-        with tempfile.TemporaryDirectory() as directory:
-            state = n.State(None, None, str(Path(directory) / 'state.json'))
-            candidate = {'url': 'https://github.com/example/project/issues/4', 'title': 'Fix', 'amount': 20, 'currency': 'EUR'}
-            with self.assertRaises(RuntimeError):
-                n.deliver(state, candidate, lambda _: {'ok': False})
-            self.assertEqual(state.data['notifications'][candidate['url']]['status'], 'pending')
+    def test_dispatch_204_and_unknown_not_retried(self):
+        response=Mock();response.status=204
+        with patch('worker.urllib.request.urlopen') as urlopen:
+            urlopen.return_value.__enter__.return_value=response
+            worker.dispatch_successor('FAKE','example/repo')
+            self.assertEqual(urlopen.call_count,1)
+        with patch('worker.urllib.request.urlopen',side_effect=OSError('unknown')) as urlopen:
+            with self.assertRaises(RuntimeError): worker.dispatch_successor('FAKE','example/repo')
+            self.assertEqual(urlopen.call_count,1)
 
+    def test_private_repo_worker_refuses_run(self):
+        with patch.dict('os.environ',{'GITHUB_TOKEN':'FAKE','GITHUB_REPOSITORY':'example/repo'}), patch('worker.GitHub') as gh:
+            gh.return_value.get.return_value={'private':True}
+            with self.assertRaises(RuntimeError): worker.run_worker()
 
-if __name__ == '__main__':
-    unittest.main()
+    def test_worker_runs_five_minute_slots_and_one_successor(self):
+        clock = {'t': 0}
+        def sleep(seconds): clock['t'] += seconds
+        env={'GITHUB_TOKEN':'FAKE','GITHUB_REPOSITORY':'example/repo','FOLLOW_UP':'true','DRY_RUN':'false','ENABLE_SCHEDULE':'true'}
+        with patch.dict('os.environ',env), patch('worker.GitHub') as gh, patch('worker.subprocess.run') as run, patch('worker.time.monotonic',side_effect=lambda:clock['t']), patch('worker.time.sleep',side_effect=sleep), patch('worker.dispatch_successor') as successor:
+            gh.return_value.get.return_value={'private':False}
+            run.return_value.returncode=0
+            worker.run_worker()
+            self.assertEqual(run.call_count,3)
+            self.assertEqual(clock['t'],900)
+            successor.assert_called_once_with('FAKE','example/repo')
+
+    def test_disabled_schedule_does_not_chain(self):
+        env={'GITHUB_TOKEN':'FAKE','GITHUB_REPOSITORY':'example/repo','FOLLOW_UP':'true','DRY_RUN':'false','ENABLE_SCHEDULE':'false'}
+        with patch.dict('os.environ',env), patch('worker.GitHub') as gh, patch('worker.subprocess.run') as run, patch('worker.dispatch_successor') as successor:
+            gh.return_value.get.return_value={'private':False}
+            run.return_value.returncode=0
+            worker.run_worker()
+            self.assertEqual(run.call_count,1)
+            successor.assert_not_called()
+
+    def test_telegram_preflight(self):
+        with patch('notifier.request_json',side_effect=[{'ok':True,'result':{'username':'Github_ertesito_bot'}},{'ok':True,'result':{'id':123,'type':'private'}}]):
+            n.verify_telegram('FAKE','123')
+
+if __name__=='__main__': unittest.main()

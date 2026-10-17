@@ -1,18 +1,23 @@
 name: GitHub bounty notifier
 on:
   schedule:
-    - cron: '2-59/5 * * * *'
+    - cron: '7 * * * *'
   workflow_dispatch:
     inputs:
       dry_run:
         description: 'Do not send Telegram messages or write delivery state'
         type: boolean
         default: true
+      follow_up:
+        description: 'Keep scanning every five minutes and hand off to a successor'
+        type: boolean
+        default: false
+      bootstrap:
+        description: 'Activation check: hand off immediately after the first scan'
+        type: boolean
+        default: false
   push:
-    paths:
-      - 'notifier.py'
-      - 'tests/**'
-      - '.github/workflows/watch.yml'
+    paths: ['notifier.py', 'worker.py', 'tests/**', '.github/workflows/watch.yml']
 permissions:
   contents: read
 concurrency:
@@ -22,57 +27,51 @@ jobs:
   tests:
     if: github.event_name != 'schedule' || vars.ENABLE_SCHEDULE == 'true'
     runs-on: ubuntu-24.04
-    timeout-minutes: 8
+    timeout-minutes: 5
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version: '3.12'
       - run: python -m unittest discover -s tests -v
   scan:
     needs: tests
-    if: github.event_name != 'push' && (github.event_name != 'schedule' || vars.ENABLE_SCHEDULE == 'true')
+    if: github.event_name != 'push' && !github.event.repository.private && (vars.ENABLE_SCHEDULE == 'true' || inputs.dry_run)
     runs-on: ubuntu-24.04
-    timeout-minutes: 8
+    timeout-minutes: 22
     permissions:
       contents: write
+      actions: write
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version: '3.12'
-      - name: Scan and notify (dry run if Telegram secret is absent)
+      - name: Five-minute bounty worker
         env:
+          BOOTSTRAP: ${{ inputs.bootstrap }}
           DRY_RUN: ${{ inputs.dry_run }}
+          FOLLOW_UP: ${{ github.event_name == 'schedule' || inputs.follow_up }}
+          ENABLE_SCHEDULE: ${{ vars.ENABLE_SCHEDULE }}
           GITHUB_TOKEN: ${{ github.token }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        shell: bash
-        run: |
-          if [ "$DRY_RUN" = "true" ]; then
-            python notifier.py --dry-run
-          elif [ -n "$TELEGRAM_BOT_TOKEN" ] && [ -n "$TELEGRAM_CHAT_ID" ]; then
-            python notifier.py
-          else
-            echo 'Telegram secret missing: running without messages or state writes.'
-            python notifier.py --dry-run
-          fi
+        run: python -u worker.py
       - name: Summary
         if: always()
-        shell: bash
         run: |
-          if [ -f run-report.json ]; then
-            python - <<'PY'
+          python - <<'PY'
           import json, os
-          r = json.load(open('run-report.json'))
-          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
-              f.write('## Bounty scan\n')
-              for key in ('checked_at', 'discovered', 'candidate_check_errors', 'dry_run'):
-                  f.write(f'- {key}: {r[key]}\n')
-              f.write(f'- rule-filtered candidates: {len(r["candidates"])}\n')
+          from pathlib import Path
+          if Path('run-report.json').exists():
+              r = json.load(open('run-report.json'))
+              with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
+                  f.write('## Latest scan\n')
+                  for k in ('checked_at','discovered','candidate_check_errors','dry_run'):
+                      f.write(f'- {k}: {r[k]}\n')
+                  f.write(f'- advertised-money issues: {len(r["candidates"])}\n')
           PY
-          fi

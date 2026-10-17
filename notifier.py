@@ -1,4 +1,4 @@
-"""Conservative rule-based GitHub bounty discovery; Python standard library only."""
+"""Broad advertised-money GitHub bounty discovery; Python standard library only."""
 import argparse
 import base64
 import hashlib
@@ -17,28 +17,16 @@ API = 'https://api.github.com'
 STATE_PATH = 'state/notifications.json'
 CHAT_ID_SHA256 = '2d0a470453be09af1c50fb6cb36dfc4eb167ced3f3f63edeb11e99ce23a0fa39'
 QUERIES = [
-    'is:issue is:open no:assignee label:bounty sort:updated-desc',
-    'is:issue is:open no:assignee "bounty" "$" sort:created-desc',
-    'is:issue is:open no:assignee "USD" "paid" sort:created-desc',
+    'is:issue is:open label:bounty',
+    'is:issue is:open in:title bounty',
+    'is:issue is:open in:body "/bounty"',
+    'repo:Expensify/App is:issue is:open label:HelpWanted',
+    'is:issue is:open in:title "USD"',
 ]
-# Previously reviewed, allocated, overcrowded, fake-money or unsuitable sources.
-EXCLUDED_REPOS = {
-    'limitlessprojects/go-hybrid', 'oll4com/spaceapp', 'expensify/app',
-    'claude-builders-bounty/claude-builders-bounty', 'tine1117/oss-hunter-livefire',
-    'warpspeedopen-source/warpspeed-bounties', 'causify-ai/helpers',
-    'ikalus1988/misakanet', 'odiseo159-beep/mergit',
-    'securebananalabs/bug-bounty', 'clankernation/openagents',
-    'iii123iii/crystal-pdf', 'parabola-org/parabola',
-}
-AMOUNT = re.compile(r'(?:\$\s*(\d+(?:[.,]\d{1,2})?)|\b(\d+(?:[.,]\d{1,2})?)\s*(USD|EUR|GBP)\b|([€£])\s*(\d+(?:[.,]\d{1,2})?))', re.I)
-SKILLS = re.compile(r'\b(csv|xlsx|excel|spreadsheet|python|javascript|typescript|api|telegram|docx|pdf|responsive|css|html|unit tests?|regression tests?|parser|parsing|data conversion|validation)\b', re.I)
-COMPLEX = re.compile(r'\b(kernel|compiler|cryptograph\w*|solidity|smart contract|blockchain|webgl|gpu|kubernetes|medical|penetration|exploit|security vulnerability)\b', re.I)
-RESTRICTED = re.compile(r'\b(no ai|ai[- ]generated.{0,35}(?:not allowed|prohibited|forbidden)|human.{0,25}(?:review required|must review)|us citizens? only|us[- ]only|must (?:reside|be located) in|on[- ]site|in[- ]person|testnet|test money|zero[- ]bounty|unfunded|amount tbd|deposit required)\b', re.I)
-ALLOCATED = re.compile(r'\b(bounty (?:paid|claimed)|assigned to|proposal (?:accepted|selected)|already fixed|payment sent|no longer available|bounties (?:are )?(?:paused|discontinued))\b', re.I)
-AI_ALLOWED = re.compile(r'\b(ai[- ]assisted (?:work|contributions?|development) (?:is |are )?(?:allowed|welcome|accepted)|ai (?:use |tools? )?(?:is |are )?(?:allowed|welcome|accepted)|ai[- ]generated (?:code|contributions?) (?:is |are )?(?:allowed|accepted))\b', re.I)
-PAYMENT = re.compile(r'\b(paypal|wise|bank transfer|upwork|algora|opire|polar\.sh)\b', re.I)
-DEADLINE = re.compile(r'\b(deadline|expires?|by \d{4}-\d{2}-\d{2})\b', re.I)
+AMOUNT = re.compile(r'(?:([$€£])\s*(\d+(?:[,.]\d+)*)|\b(\d+(?:[,.]\d+)*)\s*(USD|EUR|GBP|NIS|ILS|USDC|USDT|BTC|sats?)\b)', re.I)
+FAKE_MONEY = re.compile(r'\b(testnet (?:eth|tokens?|funds)|test money|zero[- ]bounty|no (?:cash|monetary) reward)\b', re.I)
 PR_LINK = re.compile(r'https://github\.com/[\w.-]+/[\w.-]+/pull/\d+', re.I)
+SOURCE_LINK = re.compile(r'(?:Source URL|Original (?:issue|URL)|原始链接)[^\n]*\n+(https://github\.com/[\w.-]+/[\w.-]+/issues/\d+)', re.I)
 
 
 def now():
@@ -146,108 +134,105 @@ class State:
 
 
 def reward(text):
-    matches = list(AMOUNT.finditer(text))
-    # Ambiguous multiple prices / ranges require manual review.
-    if len(matches) != 1:
-        return None
-    m = matches[0]
-    value = float((m[1] or m[2] or m[5]).replace(',', '.'))
-    currency = m[3].upper() if m[3] else {'€': 'EUR', '£': 'GBP'}.get(m[4], 'USD')
-    return (value, currency) if 10 <= value <= 750 else None
+    values = []
+    for match in AMOUNT.finditer(text):
+        raw = match[2] or match[3]
+        if ',' in raw and '.' in raw:
+            raw = raw.replace(',', '') if raw.rfind('.') > raw.rfind(',') else raw.replace('.', '').replace(',', '.')
+        elif ',' in raw:
+            raw = raw.replace(',', '') if len(raw.rsplit(',', 1)[1]) == 3 else raw.replace(',', '.')
+        try:
+            value = float(raw)
+        except ValueError:
+            continue
+        currency = {'$': 'USD', '€': 'EUR', '£': 'GBP'}.get(match[1], (match[4] or '').upper())
+        if value > 0 and (value, currency) not in values:
+            values.append((value, currency))
+    return values
 
 
 def preliminary(issue, repo):
     text = issue.get('title', '') + '\n' + (issue.get('body') or '')
-    if repo.lower() in EXCLUDED_REPOS or issue.get('state') != 'open' or issue.get('assignees') or issue.get('pull_request'):
-        return None
-    # Only original poster's explicit offered reward counts, never applicant quotes.
-    # Exclude requests asking someone else to fund a bounty.
-    if not re.search(r'\b(bounty|reward|will pay|paid task)\b', text, re.I):
-        return None
-    if re.search(r'\b(seeking|requesting|suggest|please (?:add|fund))\b.{0,35}\bbounty\b', text, re.I):
-        return None
-    amount = reward(text)
-    if not amount or not SKILLS.search(text) or COMPLEX.search(text) or RESTRICTED.search(text) or ALLOCATED.search(text) or DEADLINE.search(text):
-        return None
-    if not 80 <= len(text) <= 14000 or issue.get('comments', 0) > 12:
-        return None
-    # Explicit acceptance criteria/scope makes a candidate materially stronger.
-    if not re.search(r'\b(acceptance|expected|reproduce|requirements?|tests? pass|deliverables?|steps to)\b', text, re.I):
-        return None
-    return amount
+    labels = ' '.join(x.get('name', '') if isinstance(x, dict) else str(x) for x in issue.get('labels', []))
+    if issue.get('state') != 'open' or issue.get('pull_request') or FAKE_MONEY.search(text):
+        return []
+    if re.search(r'(?:bounty requested|please (?:add|fund).{0,30}bounty|would like a bounty attached|proposed bounty|testnet bounty)', text, re.I):
+        return []
+    if not re.search(r'bounty|reward|budget|pays|will pay|helpwanted|\[\s*[$€£]', text + labels, re.I):
+        return []
+    return reward(text)
 
 
 def assess(gh, item):
+    # Search responses are discovery only. Re-fetch the canonical live issue.
     parts = urllib.parse.urlparse(item['html_url']).path.strip('/').split('/')
     repo, number = '/'.join(parts[:2]), int(parts[3])
-    if repo.lower() in EXCLUDED_REPOS:
+    if not preliminary(item, repo):
         return None
     issue = gh.get(f'/repos/{repo}/issues/{number}')
-    amount = preliminary(issue, repo)
-    if not amount:
+    mirror = SOURCE_LINK.search(issue.get('body') or '')
+    if mirror:
+        parts = urllib.parse.urlparse(mirror[1]).path.strip('/').split('/')
+        repo, number = '/'.join(parts[:2]), int(parts[3])
+        issue = gh.get(f'/repos/{repo}/issues/{number}')
+    amounts = preliminary(issue, repo)
+    if not amounts:
         return None
-    metadata = gh.get(f'/repos/{repo}')
-    if metadata.get('archived') or metadata.get('disabled') or metadata.get('fork'):
-        return None
-    # Reject disposable/spam repositories; this is a heuristic, not funding proof.
-    age = dt.datetime.now(dt.timezone.utc) - dt.datetime.fromisoformat(metadata['created_at'].replace('Z', '+00:00'))
-    if age.days < 30 or metadata.get('stargazers_count', 0) < 3:
-        return None
-    comments = gh.pages(f'/repos/{repo}/issues/{number}/comments')
-    owner_logins = {metadata['owner']['login'].lower(), issue['user']['login'].lower()}
-    authoritative = [c for c in comments if c.get('author_association') in ('OWNER', 'MEMBER') or c['user']['login'].lower() in owner_logins]
-    original = issue['title'] + '\n' + (issue.get('body') or '')
-    terms = original + '\n' + '\n'.join(c.get('body') or '' for c in authoritative)
-    all_comments = '\n'.join(c.get('body') or '' for c in comments)
-    if RESTRICTED.search(terms) or ALLOCATED.search(terms) or PR_LINK.search(all_comments) or PR_LINK.search(original):
-        return None
-    # Timeline includes linked/cross-referenced PRs, including closed solutions.
-    timeline = gh.pages(f'/repos/{repo}/issues/{number}/timeline')
-    if any(e.get('source', {}).get('issue', {}).get('pull_request') or e.get('event') in ('connected', 'closed', 'assigned') for e in timeline):
-        return None
-    prs = gh.get('/search/issues?' + urllib.parse.urlencode({'q': f'repo:{repo} is:pr {number}', 'per_page': 20}))
-    if prs.get('incomplete_results') or prs.get('total_count', 0):
-        return None
-    # Read contributor rules without downloading or executing repository code.
-    rules = []
-    for path in ('CONTRIBUTING.md', '.github/CONTRIBUTING.md', 'BOUNTY.md', 'BOUNTIES.md'):
-        try:
-            entry = gh.get(f'/repos/{repo}/contents/{path}')
-        except RuntimeError as exc:
-            if str(exc).startswith('HTTP 404;'):
-                continue
-            raise
-        if entry.get('encoding') == 'base64':
-            rules.append(base64.b64decode(entry['content']).decode('utf-8', 'replace'))
-    terms += '\n' + '\n'.join(rules)
-    if RESTRICTED.search(terms) or ALLOCATED.search(terms):
-        return None
-    # Avoid turning unknown AI policy/payment into a supposed eligible assignment.
-    # Both must be explicit for automated Telegram delivery. Other cases go to
-    # the local run report for manual assistant review, never a "verified job".
-    if not AI_ALLOWED.search(terms) or not PAYMENT.search(terms):
-        return None
-    # Last-moment state refresh before considering a notification.
-    fresh = gh.get(f'/repos/{repo}/issues/{number}')
-    if fresh.get('state') != 'open' or fresh.get('assignees') or fresh.get('updated_at') != issue.get('updated_at'):
-        return None
-    return {'url': issue['html_url'], 'title': issue['title'], 'amount': amount[0], 'currency': amount[1],
-            'checked_at': now(), 'comments': len(comments), 'updated_at': issue['updated_at'],
-            'kind': 'rule_filtered_candidate', 'difficulty': 'Kis/közepesnek előszűrt; kódszintű becslés szükséges'}
+    flags = []
+    if issue.get('assignees'):
+        flags.append('Van hozzárendelt közreműködő')
+    text = issue.get('title', '') + '\n' + (issue.get('body') or '')
+    # Competition and restrictions are annotations, never eligibility filters.
+    if re.search(r'no ai|ai.{0,30}(?:prohibited|forbidden)|human.{0,30}review', text, re.I):
+        flags.append('AI-/emberi ellenőrzési feltétel: olvasd el')
+    else:
+        flags.append('AI-feltétel nincs teljesen ellenőrizve')
+    recent = []
+    total = issue.get('comments', 0)
+    if total:
+        page = max(1, (total + 99) // 100)
+        recent = gh.get(f'/repos/{repo}/issues/{number}/comments?per_page=100&page={page}')
+    discussion = '\n'.join(c.get('body') or '' for c in recent[-10:])
+    prs = list(dict.fromkeys(PR_LINK.findall(text + '\n' + discussion)))
+    if prs:
+        flags.append(f'Kapcsolt PR: legalább {len(prs)}')
+    elif total:
+        flags.append(f'{total} hozzászólás; versenyhelyzet ellenőrizendő')
+    if re.search(r'bounty paid|payment sent|already fixed|proposal (?:accepted|selected)', discussion, re.I):
+        flags.append('Korábbi teljesítés/kifizetés is szerepel a beszélgetésben')
+    return {'url': issue['html_url'], 'title': issue['title'], 'rewards': amounts,
+            'amount': amounts[0][0], 'currency': amounts[0][1], 'checked_at': now(),
+            'updated_at': issue['updated_at'], 'comments': total, 'flags': flags,
+            'kind': 'advertised_paid_issue', 'pull_requests': prs[:5]}
 
 
 def message(candidate):
-    # Plain text only; never echo arbitrary issue body or instructions.
-    title = ''.join(c for c in candidate['title'] if c.isprintable())[:160]
-    return (f"🔎 Új GitHub-bounty jelölt: {candidate['amount']:g} {candidate['currency']}\n"
-        f"{title}\n{candidate['url']}\n\n"
-        "Automata szabályokkal előszűrt jelölt, nem elfogadott megbízás. "
-        "Nyitott, nincs kiosztva; az ellenőrzött GitHub-adatokban nem talált kapcsolódó PR-t. "
-        "A leírásban van releváns technológia, összeg, AI-engedély és fizetési csatorna.\n"
-        "Nehézség: kis/közepesnek előszűrt, kódszinten még ellenőrizendő. "
-        "A finanszírozás, magyarországi jogosultság, kifizetési határidő és a teljesíthetőség nincs igazolva.\n"
-        "Következő lépés: küldd ide az issue-linket; ellenőrizzük a kódot és a karbantartónál az ár/fizetés/AI és foglalás feltételeit. "
-        "Ne kezdj fizetetlen munkába pusztán ettől az értesítéstől.")
+    title = ''.join(c for c in candidate['title'] if c.isprintable())[:130]
+    amounts = candidate.get('rewards') or [(candidate['amount'], candidate['currency'])]
+    money = ' / '.join(f'{v:g} {currency}' for v, currency in amounts[:4])
+    flags = '; '.join(candidate.get('flags', []))
+    return f"💰 {money} — {title}\n{candidate['url']}\n{flags}".strip()
+
+
+def deliver_batch(state, candidates, send):
+    candidates = [c for c in candidates if c['url'] not in state.data['notifications']]
+    if not candidates:
+        return 0
+    timestamp = now()
+    for candidate in candidates:
+        state.data['notifications'][candidate['url']] = {'status': 'pending', 'created_at': timestamp, 'candidate': candidate}
+    state.save()
+    text = 'Új, nyitott issue-k meghirdetett pénzdíjjal:\n\n' + '\n\n'.join(message(c) for c in candidates)
+    text += '\n\nKiírt díj, nem garantált kifizetés. A nehézséget, AI-engedélyt, jogosultságot és fizetési módot munkakezdés előtt külön ellenőrizzük.'
+    if len(text) > 4000:
+        raise RuntimeError('Notification batch too long; kept pending without sending')
+    response = send(text)
+    if response.get('ok') is not True or not isinstance(response.get('result', {}).get('message_id'), int):
+        raise RuntimeError('Telegram send not confirmed; kept pending, no blind retry')
+    for candidate in candidates:
+        state.data['notifications'][candidate['url']].update(status='sent', message_id=response['result']['message_id'], sent_at=now())
+    state.save()
+    return len(candidates)
 
 
 def verify_telegram(token, chat_id):
@@ -259,21 +244,6 @@ def verify_telegram(token, chat_id):
     result = chat.get('result', {})
     if chat.get('ok') is not True or str(result.get('id')) != chat_id or result.get('type') != 'private':
         raise RuntimeError('Telegram private recipient not verified')
-
-
-def deliver(state, candidate, send):
-    key = candidate['url']
-    if key in state.data['notifications']:
-        return False
-    entry = {'status': 'pending', 'created_at': now(), 'candidate': candidate}
-    state.data['notifications'][key] = entry
-    state.save()  # If this fails, nothing is sent.
-    response = send(message(candidate))
-    if response.get('ok') is not True or not isinstance(response.get('result', {}).get('message_id'), int):
-        raise RuntimeError('Telegram send not confirmed; kept pending, no blind retry')
-    entry.update(status='sent', message_id=response['result']['message_id'], sent_at=now())
-    state.save()
-    return True
 
 
 def main():
@@ -291,9 +261,9 @@ def main():
         verify_telegram(telegram, chat_id)
     gh = GitHub(token)
     state = State(gh, repo, args.local_state) if not args.dry_run else None
-    seen, candidates, failures = set(), [], 0
+    seen, canonical, candidates, failures = set(), set(), [], 0
     for query in QUERIES:
-        result = gh.get('/search/issues?' + urllib.parse.urlencode({'q': query, 'per_page': 20}))
+        result = gh.get('/search/issues?' + urllib.parse.urlencode({'q': query, 'sort': 'updated', 'order': 'desc', 'per_page': 50}))
         if result.get('incomplete_results'):
             raise RuntimeError('Incomplete GitHub search; refusing to report a complete scan')
         for item in result.get('items', []):
@@ -306,19 +276,24 @@ def main():
             except RuntimeError:
                 failures += 1
                 continue
-            if candidate:
+            if candidate and candidate['url'] not in canonical and (not state or candidate['url'] not in state.data['notifications']):
+                canonical.add(candidate['url'])
                 candidates.append(candidate)
     report = {'checked_at': now(), 'discovered': len(seen), 'candidates': candidates, 'candidate_check_errors': failures, 'dry_run': args.dry_run}
     Path('run-report.json').write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n')
     sent = 0
     if not args.dry_run:
-        for candidate in candidates[:3]:
-            sent += deliver(state, candidate, lambda text: request_json(
+        for offset in range(0, len(candidates), 5):
+            sent += deliver_batch(state, candidates[offset:offset + 5], lambda text: request_json(
                 'https://api.telegram.org/bot' + telegram + '/sendMessage', data={
                     'chat_id': chat_id, 'text': text, 'link_preview_options': {'is_disabled': True}}))
-    if not args.dry_run and not failures and state.data.get('last_success_at', '')[:10] != now()[:10]:
-        state.data['last_success_at'] = now()
-        state.save()  # Daily durable checkpoint also verifies write permission.
+            time.sleep(1)  # Respect Telegram per-chat delivery rate.
+    if not args.dry_run:
+        state.data['last_scan_at'] = now()
+        state.data['last_scan'] = {'discovered': len(seen), 'matches': len(candidates), 'sent': sent, 'check_errors': failures}
+        if not failures:
+            state.data['last_success_at'] = now()
+        state.save()
     print(json.dumps({'discovered': len(seen), 'matching_candidates': len(candidates), 'sent': sent, 'candidate_check_errors': failures, 'dry_run': args.dry_run}))
     if failures:
         raise RuntimeError('Some candidates could not be verified; see error count')
