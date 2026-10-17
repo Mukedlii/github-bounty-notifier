@@ -587,7 +587,7 @@
       "sent_at": "2026-10-17T14:39:56.981310+00:00"
     },
     "https://github.com/sybil-solutions/local-ai-registry/issues/262": {
-      "status": "pending",
+      "status": "sent",
       "created_at": "2026-10-17T14:39:58.866388+00:00",
       "candidate": {
         "url": "https://github.com/sybil-solutions/local-ai-registry/issues/262",
@@ -616,10 +616,12 @@
         ],
         "kind": "advertised_paid_issue",
         "pull_requests": []
-      }
+      },
+      "message_id": 7,
+      "sent_at": "2026-10-17T14:40:00.102367+00:00"
     },
     "https://github.com/markabramov1993/arbitr/issues/8": {
-      "status": "pending",
+      "status": "sent",
       "created_at": "2026-10-17T14:39:58.866388+00:00",
       "candidate": {
         "url": "https://github.com/markabramov1993/arbitr/issues/8",
@@ -641,10 +643,12 @@
         ],
         "kind": "advertised_paid_issue",
         "pull_requests": []
-      }
+      },
+      "message_id": 7,
+      "sent_at": "2026-10-17T14:40:00.102383+00:00"
     },
     "https://github.com/dev-kp-eloper/BountyScout/issues/1606": {
-      "status": "pending",
+      "status": "sent",
       "created_at": "2026-10-17T14:39:58.866388+00:00",
       "candidate": {
         "url": "https://github.com/dev-kp-eloper/BountyScout/issues/1606",
@@ -665,10 +669,12 @@
         ],
         "kind": "advertised_paid_issue",
         "pull_requests": []
-      }
+      },
+      "message_id": 7,
+      "sent_at": "2026-10-17T14:40:00.102387+00:00"
     },
     "https://github.com/paraloom-labs/paraloom-core/issues/969": {
-      "status": "pending",
+      "status": "sent",
       "created_at": "2026-10-17T14:39:58.866388+00:00",
       "candidate": {
         "url": "https://github.com/paraloom-labs/paraloom-core/issues/969",
@@ -693,10 +699,12 @@
           "https://github.com/paraloom-labs/paraloom-wallet/pull/90",
           "https://github.com/paraloom-labs/paraloom-wallet/pull/91"
         ]
-      }
+      },
+      "message_id": 7,
+      "sent_at": "2026-10-17T14:40:00.102390+00:00"
     },
     "https://github.com/paraloom-labs/paraloom-core/issues/968": {
-      "status": "pending",
+      "status": "sent",
       "created_at": "2026-10-17T14:39:58.866388+00:00",
       "candidate": {
         "url": "https://github.com/paraloom-labs/paraloom-core/issues/968",
@@ -718,7 +726,9 @@
         ],
         "kind": "advertised_paid_issue",
         "pull_requests": []
-      }
+      },
+      "message_id": 7,
+      "sent_at": "2026-10-17T14:40:00.102392+00:00"
     }
   },
   "last_success_at": "2026-10-17T08:43:33.230339+00:00"
