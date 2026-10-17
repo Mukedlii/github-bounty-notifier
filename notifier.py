@@ -8,6 +8,7 @@ import os
 from pathlib import Path
 import re
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -52,14 +53,30 @@ def request_json(url, token=None, data=None, method=None):
         headers['Content-Type'] = 'application/json'
     req = urllib.request.Request(url, headers=headers,
         data=json.dumps(data).encode() if data is not None else None, method=method)
-    try:
-        with urllib.request.urlopen(req, timeout=30) as response:
-            return json.load(response)
-    except urllib.error.HTTPError as exc:
-        # Never include URLs, request headers, tokens or response bodies in errors.
-        raise RuntimeError(f'HTTP {exc.code}; request failed, no automatic delivery retry') from None
-    except (OSError, ValueError):
-        raise RuntimeError('Network/JSON failure; request outcome may be unknown') from None
+    for attempt in range(2):
+        try:
+            with urllib.request.urlopen(req, timeout=30) as response:
+                return json.load(response)
+        except urllib.error.HTTPError as exc:
+            # Respect an explicit GitHub rate-limit reset. Retry only read-only
+            # GitHub GETs, never Telegram sends or state writes.
+            rate_limited = exc.code in (403, 429) and (
+                exc.headers.get('X-RateLimit-Remaining') == '0' or exc.headers.get('Retry-After'))
+            if rate_limited and data is None and method in (None, 'GET') and url.startswith(API + '/'):
+                try:
+                    delay = int(exc.headers.get('Retry-After') or max(1, int(exc.headers.get('X-RateLimit-Reset', '0')) - int(time.time()) + 1))
+                except ValueError:
+                    delay = 61
+                if attempt == 0 and 0 < delay <= 60:
+                    print('GitHub read rate limit: waiting for the server reset')
+                    time.sleep(delay)
+                    continue
+                raise RuntimeError('GitHub API rate limit; scan incomplete, next scheduled run may retry') from None
+            # Never include URLs, request headers, tokens or response bodies.
+            raise RuntimeError(f'HTTP {exc.code}; request failed, no automatic delivery retry') from None
+        except (OSError, ValueError):
+            raise RuntimeError('Network/JSON failure; request outcome may be unknown') from None
+
 
 
 class GitHub:
