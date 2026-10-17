@@ -1536,6 +1536,32 @@
       },
       "message_id": 19,
       "sent_at": "2026-10-17T20:26:44.905406+00:00"
+    },
+    "https://github.com/farzinfarahi30-star/Leadpilot-ai/issues/9": {
+      "status": "pending",
+      "created_at": "2026-10-17T21:02:37.042226+00:00",
+      "candidate": {
+        "url": "https://github.com/farzinfarahi30-star/Leadpilot-ai/issues/9",
+        "title": "NOVA paid-task candidate | agentbounties | agentbounties:0x73fa8fec134f131caa88fe3e0e16006485c098001344857e26640c51744ce234",
+        "rewards": [
+          [
+            20.3,
+            "USD"
+          ]
+        ],
+        "amount": 20.3,
+        "currency": "USD",
+        "checked_at": "2026-10-17T21:02:35.852803+00:00",
+        "created_at": "2026-10-17T21:02:03Z",
+        "updated_at": "2026-10-17T21:02:03Z",
+        "comments": 0,
+        "flags": [
+          "AI-munkamód és kifizetés karbantartói megerősítése szükséges"
+        ],
+        "kind": "potential_ai_task",
+        "pull_requests": [],
+        "assessment": "Szabályalapú előszűrés; megoldhatóság nem garantált"
+      }
     }
   },
   "last_success_at": "2026-10-17T20:57:21.922007+00:00",
