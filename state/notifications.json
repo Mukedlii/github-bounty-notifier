@@ -1928,12 +1928,12 @@
       "sent_at": "2026-10-18T16:45:38.798588+00:00"
     }
   },
-  "last_success_at": "2026-10-18T16:40:36.177411+00:00",
-  "last_scan_at": "2026-10-18T16:40:36.177406+00:00",
+  "last_success_at": "2026-10-18T16:45:40.771335+00:00",
+  "last_scan_at": "2026-10-18T16:45:40.771300+00:00",
   "last_scan": {
-    "discovered": 163,
-    "matches": 0,
-    "sent": 0,
+    "discovered": 166,
+    "matches": 1,
+    "sent": 1,
     "check_errors": 0
   }
 }
