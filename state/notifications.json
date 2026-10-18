@@ -1703,7 +1703,7 @@
       "sent_at": "2026-10-18T01:53:14.318862+00:00"
     },
     "https://github.com/96loveslife/big_model_radar/issues/509": {
-      "status": "pending",
+      "status": "sent",
       "created_at": "2026-10-18T04:05:49.436481+00:00",
       "candidate": {
         "url": "https://github.com/96loveslife/big_model_radar/issues/509",
@@ -1730,7 +1730,9 @@
         "kind": "potential_ai_task",
         "pull_requests": [],
         "assessment": "Szabályalapú előszűrés; megoldhatóság nem garantált"
-      }
+      },
+      "message_id": 25,
+      "sent_at": "2026-10-18T04:05:51.300287+00:00"
     }
   },
   "last_success_at": "2026-10-18T04:00:46.829365+00:00",
