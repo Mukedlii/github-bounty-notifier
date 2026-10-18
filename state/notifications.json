@@ -1792,7 +1792,7 @@
       "sent_at": "2026-10-18T05:58:02.579243+00:00"
     },
     "https://github.com/tenstorrent/tt-metal/issues/61242": {
-      "status": "pending",
+      "status": "sent",
       "created_at": "2026-10-18T10:02:36.148742+00:00",
       "candidate": {
         "url": "https://github.com/tenstorrent/tt-metal/issues/61242",
@@ -1823,7 +1823,9 @@
         "kind": "potential_ai_task",
         "pull_requests": [],
         "assessment": "Szabályalapú előszűrés; megoldhatóság nem garantált"
-      }
+      },
+      "message_id": 28,
+      "sent_at": "2026-10-18T10:02:37.715681+00:00"
     }
   },
   "last_success_at": "2026-10-18T09:57:16.474445+00:00",
