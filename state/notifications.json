@@ -1735,7 +1735,7 @@
       "sent_at": "2026-10-18T04:05:51.300287+00:00"
     },
     "https://github.com/limitlessprojects/Go-Hybrid/issues/345": {
-      "status": "pending",
+      "status": "sent",
       "created_at": "2026-10-18T04:15:57.756107+00:00",
       "candidate": {
         "url": "https://github.com/limitlessprojects/Go-Hybrid/issues/345",
@@ -1759,7 +1759,9 @@
         "kind": "potential_ai_task",
         "pull_requests": [],
         "assessment": "Szabályalapú előszűrés; megoldhatóság nem garantált"
-      }
+      },
+      "message_id": 26,
+      "sent_at": "2026-10-18T04:15:59.420900+00:00"
     }
   },
   "last_success_at": "2026-10-18T04:10:56.764026+00:00",
