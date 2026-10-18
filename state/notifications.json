@@ -1928,7 +1928,7 @@
       "sent_at": "2026-10-18T16:45:38.798588+00:00"
     },
     "https://github.com/HCTDIP/corps-jobs/issues/107": {
-      "status": "pending",
+      "status": "sent",
       "created_at": "2026-10-18T21:05:23.813704+00:00",
       "candidate": {
         "url": "https://github.com/HCTDIP/corps-jobs/issues/107",
@@ -1951,7 +1951,9 @@
         "kind": "potential_ai_task",
         "pull_requests": [],
         "assessment": "Szabályalapú előszűrés; megoldhatóság nem garantált"
-      }
+      },
+      "message_id": 32,
+      "sent_at": "2026-10-18T21:05:24.986980+00:00"
     }
   },
   "last_success_at": "2026-10-18T21:00:26.715210+00:00",
