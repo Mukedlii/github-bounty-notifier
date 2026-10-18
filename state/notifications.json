@@ -1667,12 +1667,12 @@
       "sent_at": "2026-10-18T00:52:07.614377+00:00"
     }
   },
-  "last_success_at": "2026-10-18T00:46:48.962356+00:00",
-  "last_scan_at": "2026-10-18T00:46:48.962346+00:00",
+  "last_success_at": "2026-10-18T00:52:09.514883+00:00",
+  "last_scan_at": "2026-10-18T00:52:09.514851+00:00",
   "last_scan": {
-    "discovered": 160,
-    "matches": 0,
-    "sent": 0,
+    "discovered": 163,
+    "matches": 1,
+    "sent": 1,
     "check_errors": 0
   }
 }
