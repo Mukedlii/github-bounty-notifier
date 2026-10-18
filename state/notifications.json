@@ -1733,6 +1733,33 @@
       },
       "message_id": 25,
       "sent_at": "2026-10-18T04:05:51.300287+00:00"
+    },
+    "https://github.com/limitlessprojects/Go-Hybrid/issues/345": {
+      "status": "pending",
+      "created_at": "2026-10-18T04:15:57.756107+00:00",
+      "candidate": {
+        "url": "https://github.com/limitlessprojects/Go-Hybrid/issues/345",
+        "title": "[wildcard] Make hy-emit untrusted: independently validated lowering to plain Go",
+        "rewards": [
+          [
+            250.0,
+            "USD"
+          ]
+        ],
+        "amount": 250.0,
+        "currency": "USD",
+        "checked_at": "2026-10-18T04:15:56.037180+00:00",
+        "created_at": "2026-10-16T22:12:20Z",
+        "updated_at": "2026-10-18T04:10:47Z",
+        "comments": 4,
+        "flags": [
+          "AI-munkamód és kifizetés karbantartói megerősítése szükséges",
+          "4 hozzászólás; versenyhelyzet ellenőrizendő"
+        ],
+        "kind": "potential_ai_task",
+        "pull_requests": [],
+        "assessment": "Szabályalapú előszűrés; megoldhatóság nem garantált"
+      }
     }
   },
   "last_success_at": "2026-10-18T04:10:56.764026+00:00",
