@@ -1984,7 +1984,7 @@
       "sent_at": "2026-10-18T23:43:30.367538+00:00"
     },
     "https://github.com/gigs-sh/gigs-sh/issues/16": {
-      "status": "pending",
+      "status": "sent",
       "created_at": "2026-10-18T23:53:35.953022+00:00",
       "candidate": {
         "url": "https://github.com/gigs-sh/gigs-sh/issues/16",
@@ -2011,7 +2011,9 @@
         "kind": "potential_ai_task",
         "pull_requests": [],
         "assessment": "Szabályalapú előszűrés; megoldhatóság nem garantált"
-      }
+      },
+      "message_id": 34,
+      "sent_at": "2026-10-18T23:53:37.168718+00:00"
     }
   },
   "last_success_at": "2026-10-18T23:48:34.946730+00:00",
