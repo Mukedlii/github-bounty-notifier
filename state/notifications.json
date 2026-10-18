@@ -1703,12 +1703,12 @@
       "sent_at": "2026-10-18T01:53:14.318862+00:00"
     }
   },
-  "last_success_at": "2026-10-18T01:47:55.589386+00:00",
-  "last_scan_at": "2026-10-18T01:47:55.589374+00:00",
+  "last_success_at": "2026-10-18T01:53:16.430806+00:00",
+  "last_scan_at": "2026-10-18T01:53:16.430790+00:00",
   "last_scan": {
-    "discovered": 153,
-    "matches": 0,
-    "sent": 0,
+    "discovered": 151,
+    "matches": 1,
+    "sent": 1,
     "check_errors": 0
   }
 }
