@@ -1667,7 +1667,7 @@
       "sent_at": "2026-10-18T00:52:07.614377+00:00"
     },
     "https://github.com/FuRongJun-1999/dsh-bounty/issues/916": {
-      "status": "pending",
+      "status": "sent",
       "created_at": "2026-10-18T01:53:12.987503+00:00",
       "candidate": {
         "url": "https://github.com/FuRongJun-1999/dsh-bounty/issues/916",
@@ -1698,7 +1698,9 @@
         "kind": "potential_ai_task",
         "pull_requests": [],
         "assessment": "Szabályalapú előszűrés; megoldhatóság nem garantált"
-      }
+      },
+      "message_id": 24,
+      "sent_at": "2026-10-18T01:53:14.318862+00:00"
     }
   },
   "last_success_at": "2026-10-18T01:47:55.589386+00:00",
