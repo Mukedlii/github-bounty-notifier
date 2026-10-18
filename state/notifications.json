@@ -1900,7 +1900,7 @@
       "sent_at": "2026-10-18T13:00:56.929414+00:00"
     },
     "https://github.com/FuRongJun-1999/dsh-bounty/issues/1003": {
-      "status": "pending",
+      "status": "sent",
       "created_at": "2026-10-18T16:45:37.438460+00:00",
       "candidate": {
         "url": "https://github.com/FuRongJun-1999/dsh-bounty/issues/1003",
@@ -1923,7 +1923,9 @@
         "kind": "potential_ai_task",
         "pull_requests": [],
         "assessment": "Szabályalapú előszűrés; megoldhatóság nem garantált"
-      }
+      },
+      "message_id": 31,
+      "sent_at": "2026-10-18T16:45:38.798588+00:00"
     }
   },
   "last_success_at": "2026-10-18T16:40:36.177411+00:00",
