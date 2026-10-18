@@ -1898,6 +1898,32 @@
       },
       "message_id": 30,
       "sent_at": "2026-10-18T13:00:56.929414+00:00"
+    },
+    "https://github.com/FuRongJun-1999/dsh-bounty/issues/1003": {
+      "status": "pending",
+      "created_at": "2026-10-18T16:45:37.438460+00:00",
+      "candidate": {
+        "url": "https://github.com/FuRongJun-1999/dsh-bounty/issues/1003",
+        "title": "[intake 输入] 【测评报告】dsh-cite 0.5.0 解析 / 去重 / 往返导出深测（Linux · 方法试验）",
+        "rewards": [
+          [
+            5.0,
+            "USD"
+          ]
+        ],
+        "amount": 5.0,
+        "currency": "USD",
+        "checked_at": "2026-10-18T16:45:32.083051+00:00",
+        "created_at": "2026-10-18T16:43:38Z",
+        "updated_at": "2026-10-18T16:44:27Z",
+        "comments": 0,
+        "flags": [
+          "AI-munkamód és kifizetés karbantartói megerősítése szükséges"
+        ],
+        "kind": "potential_ai_task",
+        "pull_requests": [],
+        "assessment": "Szabályalapú előszűrés; megoldhatóság nem garantált"
+      }
     }
   },
   "last_success_at": "2026-10-18T16:40:36.177411+00:00",
