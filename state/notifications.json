@@ -1790,6 +1790,40 @@
       },
       "message_id": 27,
       "sent_at": "2026-10-18T05:58:02.579243+00:00"
+    },
+    "https://github.com/tenstorrent/tt-metal/issues/61242": {
+      "status": "pending",
+      "created_at": "2026-10-18T10:02:36.148742+00:00",
+      "candidate": {
+        "url": "https://github.com/tenstorrent/tt-metal/issues/61242",
+        "title": "ttnn.logiteps_bw uses [eps, 1 - eps] instead of [0, 1] when eps < 0 (returning finite negative gradients instead of NaN) and executes 10 redundant device dispatches",
+        "rewards": [
+          [
+            1.0,
+            "USD"
+          ],
+          [
+            4.0,
+            "USD"
+          ],
+          [
+            2.0,
+            "USD"
+          ]
+        ],
+        "amount": 1.0,
+        "currency": "USD",
+        "checked_at": "2026-10-18T10:02:34.565930+00:00",
+        "created_at": "2026-10-18T10:02:18Z",
+        "updated_at": "2026-10-18T10:02:18Z",
+        "comments": 0,
+        "flags": [
+          "AI-munkamód és kifizetés karbantartói megerősítése szükséges"
+        ],
+        "kind": "potential_ai_task",
+        "pull_requests": [],
+        "assessment": "Szabályalapú előszűrés; megoldhatóság nem garantált"
+      }
     }
   },
   "last_success_at": "2026-10-18T09:57:16.474445+00:00",
