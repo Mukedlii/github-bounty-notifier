@@ -1826,6 +1826,36 @@
       },
       "message_id": 28,
       "sent_at": "2026-10-18T10:02:37.715681+00:00"
+    },
+    "https://github.com/FuRongJun-1999/dsh-bounty/issues/962": {
+      "status": "pending",
+      "created_at": "2026-10-18T10:07:36.066307+00:00",
+      "candidate": {
+        "url": "https://github.com/FuRongJun-1999/dsh-bounty/issues/962",
+        "title": "[intake 输入][test/Windows] dsh-gea-plugin 三大攻击面（命令注入/路径遍历/SSRF·凭据外发）静态审计＋自带套件 23 项＋自写 61 项边界探针全数通过，未确认可复现安全缺陷（D）",
+        "rewards": [
+          [
+            1.0,
+            "USD"
+          ],
+          [
+            2.0,
+            "USD"
+          ]
+        ],
+        "amount": 1.0,
+        "currency": "USD",
+        "checked_at": "2026-10-18T10:07:34.297200+00:00",
+        "created_at": "2026-10-18T10:04:29Z",
+        "updated_at": "2026-10-18T10:04:29Z",
+        "comments": 0,
+        "flags": [
+          "AI-munkamód és kifizetés karbantartói megerősítése szükséges"
+        ],
+        "kind": "potential_ai_task",
+        "pull_requests": [],
+        "assessment": "Szabályalapú előszűrés; megoldhatóság nem garantált"
+      }
     }
   },
   "last_success_at": "2026-10-18T10:02:39.724873+00:00",
