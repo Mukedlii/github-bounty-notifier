@@ -1764,7 +1764,7 @@
       "sent_at": "2026-10-18T04:15:59.420900+00:00"
     },
     "https://github.com/auscaster/frantic-board/issues/521": {
-      "status": "pending",
+      "status": "sent",
       "created_at": "2026-10-18T05:58:01.035035+00:00",
       "candidate": {
         "url": "https://github.com/auscaster/frantic-board/issues/521",
@@ -1787,7 +1787,9 @@
         "kind": "potential_ai_task",
         "pull_requests": [],
         "assessment": "Szabályalapú előszűrés; megoldhatóság nem garantált"
-      }
+      },
+      "message_id": 27,
+      "sent_at": "2026-10-18T05:58:02.579243+00:00"
     }
   },
   "last_success_at": "2026-10-18T05:52:40.513252+00:00",
