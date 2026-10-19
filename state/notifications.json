@@ -2136,7 +2136,7 @@
       "sent_at": "2026-10-19T05:09:42.267701+00:00"
     },
     "https://github.com/LoneWonderer1976/argo/issues/7": {
-      "status": "pending",
+      "status": "sent",
       "created_at": "2026-10-19T07:27:16.255732+00:00",
       "candidate": {
         "url": "https://github.com/LoneWonderer1976/argo/issues/7",
@@ -2163,7 +2163,9 @@
         "kind": "potential_ai_task",
         "pull_requests": [],
         "assessment": "Szabályalapú előszűrés; megoldhatóság nem garantált"
-      }
+      },
+      "message_id": 38,
+      "sent_at": "2026-10-19T07:27:17.562841+00:00"
     }
   },
   "last_success_at": "2026-10-19T07:22:01.885673+00:00",
