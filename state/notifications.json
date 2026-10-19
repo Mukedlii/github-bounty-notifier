@@ -2224,12 +2224,12 @@
       "sent_at": "2026-10-19T11:16:50.510323+00:00"
     }
   },
-  "last_success_at": "2026-10-19T11:11:27.421228+00:00",
-  "last_scan_at": "2026-10-19T11:11:27.421220+00:00",
+  "last_success_at": "2026-10-19T11:16:52.726971+00:00",
+  "last_scan_at": "2026-10-19T11:16:52.726938+00:00",
   "last_scan": {
-    "discovered": 162,
-    "matches": 0,
-    "sent": 0,
+    "discovered": 164,
+    "matches": 1,
+    "sent": 1,
     "check_errors": 0
   }
 }
