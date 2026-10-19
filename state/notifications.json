@@ -2136,12 +2136,12 @@
       "sent_at": "2026-10-19T05:09:42.267701+00:00"
     }
   },
-  "last_success_at": "2026-10-19T05:09:44.387697+00:00",
-  "last_scan_at": "2026-10-19T05:09:44.387668+00:00",
+  "last_success_at": "2026-10-19T05:14:38.682575+00:00",
+  "last_scan_at": "2026-10-19T05:14:38.682566+00:00",
   "last_scan": {
-    "discovered": 161,
-    "matches": 2,
-    "sent": 2,
+    "discovered": 158,
+    "matches": 0,
+    "sent": 0,
     "check_errors": 0
   }
 }
