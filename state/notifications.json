@@ -2334,6 +2334,36 @@
       },
       "message_id": 43,
       "sent_at": "2026-10-19T16:55:32.442860+00:00"
+    },
+    "https://github.com/Klongshore/Meijer_Coupon-O-Rama/issues/8": {
+      "status": "pending",
+      "created_at": "2026-10-19T17:00:31.859108+00:00",
+      "candidate": {
+        "url": "https://github.com/Klongshore/Meijer_Coupon-O-Rama/issues/8",
+        "title": "sync, list, clip and unclip against the real mPerks account",
+        "rewards": [
+          [
+            5.0,
+            "USD"
+          ],
+          [
+            3.0,
+            "USD"
+          ]
+        ],
+        "amount": 5.0,
+        "currency": "USD",
+        "checked_at": "2026-10-19T17:00:30.244611+00:00",
+        "created_at": "2026-10-19T16:57:24Z",
+        "updated_at": "2026-10-19T16:57:24Z",
+        "comments": 0,
+        "flags": [
+          "AI-munkamód és kifizetés karbantartói megerősítése szükséges"
+        ],
+        "kind": "potential_ai_task",
+        "pull_requests": [],
+        "assessment": "Szabályalapú előszűrés; megoldhatóság nem garantált"
+      }
     }
   },
   "last_success_at": "2026-10-19T16:55:34.501419+00:00",
