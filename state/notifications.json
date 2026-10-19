@@ -2280,7 +2280,7 @@
       "sent_at": "2026-10-19T16:04:22.618517+00:00"
     },
     "https://github.com/lizTheDeveloper/privacy-the-game/issues/331": {
-      "status": "pending",
+      "status": "sent",
       "created_at": "2026-10-19T16:55:30.901919+00:00",
       "candidate": {
         "url": "https://github.com/lizTheDeveloper/privacy-the-game/issues/331",
@@ -2303,10 +2303,12 @@
         "kind": "potential_ai_task",
         "pull_requests": [],
         "assessment": "Szabályalapú előszűrés; megoldhatóság nem garantált"
-      }
+      },
+      "message_id": 43,
+      "sent_at": "2026-10-19T16:55:32.442842+00:00"
     },
     "https://github.com/lizTheDeveloper/privacy-the-game/issues/330": {
-      "status": "pending",
+      "status": "sent",
       "created_at": "2026-10-19T16:55:30.901919+00:00",
       "candidate": {
         "url": "https://github.com/lizTheDeveloper/privacy-the-game/issues/330",
@@ -2329,7 +2331,9 @@
         "kind": "potential_ai_task",
         "pull_requests": [],
         "assessment": "Szabályalapú előszűrés; megoldhatóság nem garantált"
-      }
+      },
+      "message_id": 43,
+      "sent_at": "2026-10-19T16:55:32.442860+00:00"
     }
   },
   "last_success_at": "2026-10-19T16:50:12.650783+00:00",
