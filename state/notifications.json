@@ -2166,6 +2166,32 @@
       },
       "message_id": 38,
       "sent_at": "2026-10-19T07:27:17.562841+00:00"
+    },
+    "https://github.com/ak10082247-max/canaryguard-402/issues/2": {
+      "status": "pending",
+      "created_at": "2026-10-19T10:40:48.018069+00:00",
+      "candidate": {
+        "url": "https://github.com/ak10082247-max/canaryguard-402/issues/2",
+        "title": "[BOUNTY] $5.00+ USDC: Adversarial Prompt Injection Bypass on CanaryGuard Firewall",
+        "rewards": [
+          [
+            5.0,
+            "USD"
+          ]
+        ],
+        "amount": 5.0,
+        "currency": "USD",
+        "checked_at": "2026-10-19T10:40:37.359533+00:00",
+        "created_at": "2026-10-19T10:36:17Z",
+        "updated_at": "2026-10-19T10:37:06Z",
+        "comments": 0,
+        "flags": [
+          "AI-munkamód és kifizetés karbantartói megerősítése szükséges"
+        ],
+        "kind": "potential_ai_task",
+        "pull_requests": [],
+        "assessment": "Szabályalapú előszűrés; megoldhatóság nem garantált"
+      }
     }
   },
   "last_success_at": "2026-10-19T10:35:47.575342+00:00",
