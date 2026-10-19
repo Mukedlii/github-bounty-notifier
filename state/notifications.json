@@ -2014,6 +2014,32 @@
       },
       "message_id": 34,
       "sent_at": "2026-10-18T23:53:37.168718+00:00"
+    },
+    "https://github.com/russellyeo-oss/energy-alert-assistant/issues/2534": {
+      "status": "pending",
+      "created_at": "2026-10-19T04:03:26.194726+00:00",
+      "candidate": {
+        "url": "https://github.com/russellyeo-oss/energy-alert-assistant/issues/2534",
+        "title": "/if(empty(triggerOutputs()?['body/subject']), 'Energy alert', triggerOutputs()?['body/subject'])",
+        "rewards": [
+          [
+            22.0,
+            "USD"
+          ]
+        ],
+        "amount": 22.0,
+        "currency": "USD",
+        "checked_at": "2026-10-19T04:03:22.525053+00:00",
+        "created_at": "2026-10-19T04:01:26Z",
+        "updated_at": "2026-10-19T04:01:26Z",
+        "comments": 0,
+        "flags": [
+          "AI-munkamód és kifizetés karbantartói megerősítése szükséges"
+        ],
+        "kind": "potential_ai_task",
+        "pull_requests": [],
+        "assessment": "Szabályalapú előszűrés; megoldhatóság nem garantált"
+      }
     }
   },
   "last_success_at": "2026-10-19T03:58:23.070596+00:00",
