@@ -2080,7 +2080,7 @@
       "sent_at": "2026-10-19T04:13:38.511358+00:00"
     },
     "https://github.com/bujiproject-art/agentmidasopendevteam/issues/31": {
-      "status": "pending",
+      "status": "sent",
       "created_at": "2026-10-19T05:09:40.552125+00:00",
       "candidate": {
         "url": "https://github.com/bujiproject-art/agentmidasopendevteam/issues/31",
@@ -2103,10 +2103,12 @@
         "kind": "potential_ai_task",
         "pull_requests": [],
         "assessment": "Szabályalapú előszűrés; megoldhatóság nem garantált"
-      }
+      },
+      "message_id": 37,
+      "sent_at": "2026-10-19T05:09:42.267681+00:00"
     },
     "https://github.com/bujiproject-art/agentmidasopendevteam/issues/30": {
-      "status": "pending",
+      "status": "sent",
       "created_at": "2026-10-19T05:09:40.552125+00:00",
       "candidate": {
         "url": "https://github.com/bujiproject-art/agentmidasopendevteam/issues/30",
@@ -2129,7 +2131,9 @@
         "kind": "potential_ai_task",
         "pull_requests": [],
         "assessment": "Szabályalapú előszűrés; megoldhatóság nem garantált"
-      }
+      },
+      "message_id": 37,
+      "sent_at": "2026-10-19T05:09:42.267701+00:00"
     }
   },
   "last_success_at": "2026-10-19T05:04:26.045942+00:00",
