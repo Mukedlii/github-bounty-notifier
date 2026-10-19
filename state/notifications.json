@@ -2250,6 +2250,32 @@
       },
       "message_id": 41,
       "sent_at": "2026-10-19T14:00:05.366824+00:00"
+    },
+    "https://github.com/FuRongJun-1999/dsh-bounty/issues/1140": {
+      "status": "pending",
+      "created_at": "2026-10-19T16:04:21.003971+00:00",
+      "candidate": {
+        "url": "https://github.com/FuRongJun-1999/dsh-bounty/issues/1140",
+        "title": "【测评报告】dsh-mnemon 0.5.32（omdsh-dev）深度安全审计 · 12 件问题（0 P0 / 1 P1 / 5 P2 / 6 P3）+ 6 项正面发现：默认零外发、子代理隔离四道 fail-closed、路径边界显式校验",
+        "rewards": [
+          [
+            1.0,
+            "USD"
+          ]
+        ],
+        "amount": 1.0,
+        "currency": "USD",
+        "checked_at": "2026-10-19T16:04:19.645247+00:00",
+        "created_at": "2026-10-19T16:01:20Z",
+        "updated_at": "2026-10-19T16:01:20Z",
+        "comments": 0,
+        "flags": [
+          "AI-munkamód és kifizetés karbantartói megerősítése szükséges"
+        ],
+        "kind": "potential_ai_task",
+        "pull_requests": [],
+        "assessment": "Szabályalapú előszűrés; megoldhatóság nem garantált"
+      }
     }
   },
   "last_success_at": "2026-10-19T15:59:19.769346+00:00",
