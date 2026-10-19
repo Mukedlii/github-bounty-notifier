@@ -2336,7 +2336,7 @@
       "sent_at": "2026-10-19T16:55:32.442860+00:00"
     },
     "https://github.com/Klongshore/Meijer_Coupon-O-Rama/issues/8": {
-      "status": "pending",
+      "status": "sent",
       "created_at": "2026-10-19T17:00:31.859108+00:00",
       "candidate": {
         "url": "https://github.com/Klongshore/Meijer_Coupon-O-Rama/issues/8",
@@ -2363,7 +2363,9 @@
         "kind": "potential_ai_task",
         "pull_requests": [],
         "assessment": "Szabályalapú előszűrés; megoldhatóság nem garantált"
-      }
+      },
+      "message_id": 44,
+      "sent_at": "2026-10-19T17:00:33.526894+00:00"
     }
   },
   "last_success_at": "2026-10-19T16:55:34.501419+00:00",
