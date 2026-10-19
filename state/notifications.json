@@ -2194,6 +2194,32 @@
       },
       "message_id": 39,
       "sent_at": "2026-10-19T10:40:49.457174+00:00"
+    },
+    "https://github.com/SecureBananaLabs/bug-bounty/issues/13375": {
+      "status": "pending",
+      "created_at": "2026-10-19T11:16:48.635266+00:00",
+      "candidate": {
+        "url": "https://github.com/SecureBananaLabs/bug-bounty/issues/13375",
+        "title": "Fix API test discovery for the root npm test command Problem",
+        "rewards": [
+          [
+            800.0,
+            "USD"
+          ]
+        ],
+        "amount": 800.0,
+        "currency": "USD",
+        "checked_at": "2026-10-19T11:16:44.768279+00:00",
+        "created_at": "2026-10-19T11:13:27Z",
+        "updated_at": "2026-10-19T11:13:27Z",
+        "comments": 0,
+        "flags": [
+          "AI-munkamód és kifizetés karbantartói megerősítése szükséges"
+        ],
+        "kind": "potential_ai_task",
+        "pull_requests": [],
+        "assessment": "Szabályalapú előszűrés; megoldhatóság nem garantált"
+      }
     }
   },
   "last_success_at": "2026-10-19T11:11:27.421228+00:00",
