@@ -2196,12 +2196,12 @@
       "sent_at": "2026-10-19T10:40:49.457174+00:00"
     }
   },
-  "last_success_at": "2026-10-19T10:35:47.575342+00:00",
-  "last_scan_at": "2026-10-19T10:35:47.575336+00:00",
+  "last_success_at": "2026-10-19T10:40:51.522454+00:00",
+  "last_scan_at": "2026-10-19T10:40:51.522418+00:00",
   "last_scan": {
-    "discovered": 174,
-    "matches": 0,
-    "sent": 0,
+    "discovered": 173,
+    "matches": 1,
+    "sent": 1,
     "check_errors": 0
   }
 }
