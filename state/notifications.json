@@ -2168,7 +2168,7 @@
       "sent_at": "2026-10-19T07:27:17.562841+00:00"
     },
     "https://github.com/ak10082247-max/canaryguard-402/issues/2": {
-      "status": "pending",
+      "status": "sent",
       "created_at": "2026-10-19T10:40:48.018069+00:00",
       "candidate": {
         "url": "https://github.com/ak10082247-max/canaryguard-402/issues/2",
@@ -2191,7 +2191,9 @@
         "kind": "potential_ai_task",
         "pull_requests": [],
         "assessment": "Szabályalapú előszűrés; megoldhatóság nem garantált"
-      }
+      },
+      "message_id": 39,
+      "sent_at": "2026-10-19T10:40:49.457174+00:00"
     }
   },
   "last_success_at": "2026-10-19T10:35:47.575342+00:00",
