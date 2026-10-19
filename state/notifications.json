@@ -2278,6 +2278,58 @@
       },
       "message_id": 42,
       "sent_at": "2026-10-19T16:04:22.618517+00:00"
+    },
+    "https://github.com/lizTheDeveloper/privacy-the-game/issues/331": {
+      "status": "pending",
+      "created_at": "2026-10-19T16:55:30.901919+00:00",
+      "candidate": {
+        "url": "https://github.com/lizTheDeveloper/privacy-the-game/issues/331",
+        "title": "[stronger source] Hyundai supplies Verisk Analytics, Inc. (tier C)",
+        "rewards": [
+          [
+            1043315.69,
+            "USD"
+          ]
+        ],
+        "amount": 1043315.69,
+        "currency": "USD",
+        "checked_at": "2026-10-19T16:55:24.808215+00:00",
+        "created_at": "2026-10-19T16:53:58Z",
+        "updated_at": "2026-10-19T16:53:58Z",
+        "comments": 0,
+        "flags": [
+          "AI-munkamód és kifizetés karbantartói megerősítése szükséges"
+        ],
+        "kind": "potential_ai_task",
+        "pull_requests": [],
+        "assessment": "Szabályalapú előszűrés; megoldhatóság nem garantált"
+      }
+    },
+    "https://github.com/lizTheDeveloper/privacy-the-game/issues/330": {
+      "status": "pending",
+      "created_at": "2026-10-19T16:55:30.901919+00:00",
+      "candidate": {
+        "url": "https://github.com/lizTheDeveloper/privacy-the-game/issues/330",
+        "title": "[stronger source] Honda supplies Verisk Analytics, Inc. (tier C)",
+        "rewards": [
+          [
+            25920.0,
+            "USD"
+          ]
+        ],
+        "amount": 25920.0,
+        "currency": "USD",
+        "checked_at": "2026-10-19T16:55:25.338966+00:00",
+        "created_at": "2026-10-19T16:53:54Z",
+        "updated_at": "2026-10-19T16:53:54Z",
+        "comments": 0,
+        "flags": [
+          "AI-munkamód és kifizetés karbantartói megerősítése szükséges"
+        ],
+        "kind": "potential_ai_task",
+        "pull_requests": [],
+        "assessment": "Szabályalapú előszűrés; megoldhatóság nem garantált"
+      }
     }
   },
   "last_success_at": "2026-10-19T16:50:12.650783+00:00",
