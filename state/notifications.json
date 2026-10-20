@@ -2457,12 +2457,12 @@
       "sent_at": "2026-10-20T04:44:48.867574+00:00"
     }
   },
-  "last_success_at": "2026-10-20T04:44:51.092669+00:00",
-  "last_scan_at": "2026-10-20T04:44:51.092638+00:00",
+  "last_success_at": "2026-10-20T04:49:45.271859+00:00",
+  "last_scan_at": "2026-10-20T04:49:45.271851+00:00",
   "last_scan": {
-    "discovered": 149,
-    "matches": 1,
-    "sent": 1,
+    "discovered": 146,
+    "matches": 0,
+    "sent": 0,
     "check_errors": 0
   }
 }
