@@ -1,77 +1,22 @@
-name: GitHub bounty notifier
+name: GitHub bounty notifier (stopped)
+
+# Notifications disabled at the owner's request. Previous configuration is in git history.
 on:
-  schedule:
-    - cron: '7 * * * *'
-  workflow_dispatch:
-    inputs:
-      dry_run:
-        description: 'Do not send Telegram messages or write delivery state'
-        type: boolean
-        default: true
-      follow_up:
-        description: 'Keep scanning every five minutes and hand off to a successor'
-        type: boolean
-        default: false
-      bootstrap:
-        description: 'Activation check: hand off immediately after the first scan'
-        type: boolean
-        default: false
   push:
-    paths: ['notifier.py', 'worker.py', 'tests/**', '.github/workflows/watch.yml']
+    paths: ['.github/workflows/watch.yml']
+  workflow_dispatch:
+
 permissions:
   contents: read
+
 concurrency:
   group: bounty-notifier
-  cancel-in-progress: false
+  cancel-in-progress: true
+
 jobs:
-  tests:
-    if: github.event_name != 'schedule' || vars.ENABLE_SCHEDULE == 'true'
+  stopped:
     runs-on: ubuntu-24.04
-    timeout-minutes: 5
+    timeout-minutes: 1
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        with:
-          persist-credentials: false
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
-        with:
-          python-version: '3.12'
-      - run: python -m unittest discover -s tests -v
-  scan:
-    needs: tests
-    if: github.event_name != 'push' && !github.event.repository.private && (vars.ENABLE_SCHEDULE == 'true' || inputs.dry_run)
-    runs-on: ubuntu-24.04
-    timeout-minutes: 22
-    permissions:
-      contents: write
-      actions: write
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        with:
-          persist-credentials: false
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
-        with:
-          python-version: '3.12'
-      - name: Five-minute bounty worker
-        env:
-          BOOTSTRAP: ${{ inputs.bootstrap }}
-          DRY_RUN: ${{ inputs.dry_run }}
-          FOLLOW_UP: ${{ github.event_name == 'schedule' || inputs.follow_up }}
-          ENABLE_SCHEDULE: ${{ vars.ENABLE_SCHEDULE }}
-          GITHUB_TOKEN: ${{ github.token }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: python -u worker.py
-      - name: Summary
-        if: always()
-        run: |
-          python - <<'PY'
-          import json, os
-          from pathlib import Path
-          if Path('run-report.json').exists():
-              r = json.load(open('run-report.json'))
-              with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
-                  f.write('## Latest scan\n')
-                  for k in ('checked_at','discovered','candidate_check_errors','dry_run'):
-                      f.write(f'- {k}: {r[k]}\n')
-                  f.write(f'- advertised-money issues: {len(r["candidates"])}\n')
-          PY
+      - name: Notifier stopped
+        run: echo 'Bounty notifications are disabled.'
